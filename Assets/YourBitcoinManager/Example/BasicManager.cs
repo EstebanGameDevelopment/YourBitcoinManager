@@ -88,7 +88,7 @@ namespace YourBitcoinManager
 		 */
 		void Start()
 		{
-			BitCoinController.Instance.Init();
+			BitCoinController.Instance.Init(BitCoinController.OPTION_NETWORK_TEST);
 
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
 

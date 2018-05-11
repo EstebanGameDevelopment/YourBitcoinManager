@@ -265,7 +265,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Initialitzation
 		 */
-		public void Init()
+		public void Init(params string[] _list)
 		{
 			if (m_initialized) return;
 			m_initialized = true;
@@ -280,6 +280,10 @@ namespace YourBitcoinManager
 #endif
 			string currentNetworkUsed = PlayerPrefs.GetString(OPTION_NETWORK_COOKIE, OPTION_NETWORK_TEST);
 			m_isMainNetwork = (currentNetworkUsed == OPTION_NETWORK_MAIN);
+			if ((_list != null) && (_list.Length > 0))
+			{
+				m_isMainNetwork = (_list[0] == OPTION_NETWORK_MAIN);
+			}
 			if (m_isMainNetwork)
 			{
 				m_network = NBitcoin.Network.Main; 
