@@ -87,10 +87,15 @@ namespace YourBitcoinManager
 
 			m_container.Find("Network").GetComponent<Text>().text = LanguageController.Instance.GetText("text.network") + BitCoinController.Instance.Network.ToString();
 
+#if ENABLE_QRCODE
 			m_qrController = GameObject.FindObjectOfType<QRCodeEncodeController>();
 			m_qrController.onQREncodeFinished += QREncodeFinished;
 			m_qrCodeImage = m_container.Find("QRCode").GetComponent<RawImage>();
 			EncodeQRPublicKey();
+#else
+			m_container.Find("QRCode").gameObject.SetActive(false);
+			m_container.Find("SendQRCode").gameObject.SetActive(false);
+#endif
 		}
 
 		// -------------------------------------------

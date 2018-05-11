@@ -90,9 +90,17 @@ namespace YourBitcoinManager
 		 */
 		public void Initialize(params object[] _list)
 		{
-#if ENABLE_FULL_WALLET
-		m_enableEdition = (bool)_list[0];
-		m_enableDelete = true;
+#if !ENABLE_PARTIAL_WALLET
+			if ((_list != null) && (_list.Length > 0))
+			{
+				m_enableEdition = (bool)_list[0];
+				m_enableDelete = true;
+			}
+			else
+			{
+				m_enableEdition = true;
+				m_enableDelete = false;
+			}
 #else
 		m_enableEdition = true;
 		m_enableDelete = false;

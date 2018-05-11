@@ -1,3 +1,4 @@
+#if ENABLE_IAP
 using UnityEngine;
 using System;
 using System.Collections;
@@ -99,7 +100,11 @@ namespace YourBitcoinManager
 		*/
 		public void UnlockAccessMainBitcoinNetwork()
 		{
+#if !UNITY_EDITOR
 			BuyProductID(IAP_ACCESS_MAIN_NETWORK);
+#else
+			BasicEventController.Instance.DispatchBasicEvent(EVENT_IAP_SUCCESS_PURCHASE, true);
+#endif
 		}
 
 		// -------------------------------------------
@@ -251,3 +256,4 @@ namespace YourBitcoinManager
 		}
 	}
 }
+#endif

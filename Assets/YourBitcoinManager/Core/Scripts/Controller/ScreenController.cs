@@ -142,7 +142,10 @@ namespace YourBitcoinManager
 		{
 			BitCoinController.Instance.Init();
 #if ENABLE_IAP
-			IAPController.Instance.Init();
+			if (GameObject.FindObjectOfType<IAPController>()!=null)
+			{
+				IAPController.Instance.Init();
+			}			
 #endif
 		}
 

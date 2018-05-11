@@ -126,7 +126,7 @@ namespace YourBitcoinManager
 			m_publicAddressInput.onValueChanged.AddListener(OnValuePublicKeyChanged);
 			m_container.Find("Address/SelectAddress").GetComponent<Button>().onClick.AddListener(OnSelectAddress);			
 			m_container.Find("Address/SelectAddress/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("message.addresses");
-#if !ENABLE_FULL_WALLET
+#if ENABLE_PARTIAL_WALLET
 			m_container.Find("Address/SelectAddress").gameObject.SetActive(false);
 #endif
 			m_publicAddressInput.text = publicKeyAddress;
@@ -236,7 +236,7 @@ namespace YourBitcoinManager
 				{
 					m_saveAddress.SetActive(true);
 				}
-#if !ENABLE_FULL_WALLET
+#if ENABLE_PARTIAL_WALLET
 				m_saveAddress.SetActive(false);
 #endif
 				m_validAddress.SetActive(true);
@@ -498,7 +498,9 @@ namespace YourBitcoinManager
 				m_publicAddressInput.text = publicKeyAddress;
 				m_publicAddressToSend = publicKeyAddress;								
 				ValidPublicKeyToSend = BitCoinController.Instance.ValidatePublicKey(m_publicAddressToSend);
+#if DEBUG_MODE_DISPLAY_LOG
 				Debug.Log("EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY::PUBLIC KEY ADDRESS=" + publicKeyAddress);
+#endif
 			}
 			if (_nameEvent == EVENT_SCREENBITCOINSEND_USER_CONFIRMED_RUN_TRANSACTION)
 			{

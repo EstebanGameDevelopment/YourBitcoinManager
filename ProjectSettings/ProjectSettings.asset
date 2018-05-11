@@ -608,7 +608,7 @@ PlayerSettings:
   webGLLinkerTarget: 0
   scriptingDefineSymbols:
     1: DEBUG_MODE_DISPLAY_LOG
-    7: ENABLE_IAP;ENABLE_FULL_WALLET
+    7: ENABLE_QRCODE;ENABLE_IAP
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

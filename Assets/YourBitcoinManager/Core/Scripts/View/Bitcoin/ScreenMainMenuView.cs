@@ -311,10 +311,8 @@ namespace YourBitcoinManager
 						ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
 
 						// BUY IAP
-#if !UNITY_EDITOR
+#if ENABLE_IAP
 						IAPController.Instance.UnlockAccessMainBitcoinNetwork();
-#else
-						BasicEventController.Instance.DelayBasicEvent(IAPController.EVENT_IAP_SUCCESS_PURCHASE, 1f, true);
 #endif
 					}
 					else
@@ -346,6 +344,7 @@ namespace YourBitcoinManager
 					}
 				}
 			}
+#if ENABLE_IAP
 			if (_nameEvent == IAPController.EVENT_IAP_SUCCESS_PURCHASE)
 			{
 				BasicEventController.Instance.DispatchBasicEvent(ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_POPUP);
@@ -369,6 +368,7 @@ namespace YourBitcoinManager
 					ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, warning, description, null, "");
 				}
 			}
+#endif
 			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				ExitPressed();

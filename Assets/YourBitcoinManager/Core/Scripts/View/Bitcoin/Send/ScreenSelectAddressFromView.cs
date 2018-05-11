@@ -45,11 +45,15 @@ namespace YourBitcoinManager
 			m_container.Find("AddressList/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.send.from.list.of.addresses");
 			m_container.Find("YourAddresses").GetComponent<Button>().onClick.AddListener(OnYourAddresses);
 			m_container.Find("YourAddresses/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.send.from.your.addresses");
-			m_container.Find("QRCode").GetComponent<Button>().onClick.AddListener(OnQRCode);
-			m_container.Find("QRCode/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.send.scan.qr.code.address");
 			m_container.Find("Cancel").GetComponent<Button>().onClick.AddListener(OnCancel);
 			m_container.Find("Cancel/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("message.cancel");
 			
+			m_container.Find("QRCode/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.send.scan.qr.code.address");
+			m_container.Find("QRCode").GetComponent<Button>().onClick.AddListener(OnQRCode);
+#if !ENABLE_QRCODE
+			m_container.Find("QRCode").gameObject.SetActive(false);
+#endif
+
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
 		}
 
