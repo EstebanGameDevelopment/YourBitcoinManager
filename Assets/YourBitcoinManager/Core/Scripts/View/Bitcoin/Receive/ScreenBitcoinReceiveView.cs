@@ -28,10 +28,12 @@ namespace YourBitcoinManager
 		private string m_publicKey = "";
 		private string m_pathQRCodeImage = "";
 
+#if ENABLE_QRCODE
 		private QRCodeEncodeController m_qrController;
 		private RawImage m_qrCodeImage;
 		private QRCodeEncodeController.CodeMode m_codeformat;
 		private bool m_sendQRCodeImageByEmail = false;
+#endif
 
 		private Dictionary<string, Transform> m_iconsCurrencies = new Dictionary<string, Transform>();
 
@@ -136,7 +138,8 @@ namespace YourBitcoinManager
 		 * EncodeQRPublicKey
 		 */
 		private void EncodeQRPublicKey()
-		{			
+		{
+#if ENABLE_QRCODE
 			int errorlog = m_qrController.Encode(m_publicKey, QRCodeEncodeController.CodeMode.QR_CODE);
 			if (errorlog == -13)
 			{
@@ -160,6 +163,7 @@ namespace YourBitcoinManager
 			{
 				Debug.Log("Encode successfully!");
 			}
+#endif
 		}
 
 		// -------------------------------------------
@@ -168,6 +172,7 @@ namespace YourBitcoinManager
 		 */
 		private void QREncodeFinished(Texture2D tex)
 		{
+#if ENABLE_QRCODE
 			if (tex != null && tex != null)
 			{
 				int width = tex.width;
@@ -177,6 +182,7 @@ namespace YourBitcoinManager
 				m_qrCodeImage.texture = tex;
 				m_pathQRCodeImage = SaveTextureToFile(tex, "PublicAddress_"+ m_publicKey.Substring(0,5) + ".png");
 			}
+#endif
 		}
 
 		// -------------------------------------------
@@ -208,7 +214,9 @@ namespace YourBitcoinManager
 		 */
 		private void OnSendPublicAddress()
 		{
+#if ENABLE_QRCODE
 			m_sendQRCodeImageByEmail = false;
+#endif
 			ScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
 		}
 
@@ -218,7 +226,9 @@ namespace YourBitcoinManager
 		 */
 		private void OnSendQRCode()
 		{
+#if ENABLE_QRCODE
 			m_sendQRCodeImageByEmail = true;
+#endif
 			ScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
 		}
 
@@ -232,6 +242,7 @@ namespace YourBitcoinManager
 
 			if (_nameEvent == ScreenEnterEmailView.EVENT_SCREENENTEREMAIL_CONFIRMATION)
 			{
+#if ENABLE_QRCODE
 				if (!m_sendQRCodeImageByEmail)
 				{
 					Application.OpenURL("mailto:" + (string)_list[0] + "?subject=" + LanguageController.Instance.GetText("message.public.address") + "&body=" + LanguageController.Instance.GetText("screen.bitcoin.message.email.send.public.key") + ":" + m_publicKey);
@@ -239,7 +250,10 @@ namespace YourBitcoinManager
 				else
 				{
 					Application.OpenURL("mailto:" + (string)_list[0] + "?subject=" + LanguageController.Instance.GetText("message.public.address") + "&body=" + LanguageController.Instance.GetText("screen.bitcoin.message.email.send.qrcode.image.key") + ". Your QR Image is located at="+ m_pathQRCodeImage);
-				}				
+				}
+#else
+				Application.OpenURL("mailto:" + (string)_list[0] + "?subject=" + LanguageController.Instance.GetText("message.public.address") + "&body=" + LanguageController.Instance.GetText("screen.bitcoin.message.email.send.public.key") + ":" + m_publicKey);
+#endif
 			}
 			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{

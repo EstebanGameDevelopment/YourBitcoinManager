@@ -27,7 +27,9 @@ namespace YourBitcoinManager
 
 		private GameObject m_acceptQRCode;
 		private Text m_result;
+#if ENABLE_QRCODE
 		private QRCodeDecodeController m_qrController;
+#endif
 
 		// -------------------------------------------
 		/* 
@@ -53,8 +55,10 @@ namespace YourBitcoinManager
 
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
 
+#if ENABLE_QRCODE
 			m_qrController = GameObject.FindObjectOfType<QRCodeDecodeController>();
 			m_qrController.onQRScanFinished += new QRCodeDecodeController.QRScanFinished(QRScanFinished);
+#endif
 		}
 
 		// -------------------------------------------
@@ -66,8 +70,10 @@ namespace YourBitcoinManager
 			if (base.Destroy()) return true;
 
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+#if ENABLE_QRCODE
 			m_qrController.onQRScanFinished -= QRScanFinished;
 			m_qrController = null;
+#endif
 			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
 			return false;
 		}
