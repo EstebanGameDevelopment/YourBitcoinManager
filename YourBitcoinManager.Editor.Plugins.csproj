@@ -668,15 +668,6 @@
     <Reference Include="Facebook.Unity.Settings">
       <HintPath>Library\FacebookSDK\Facebook.Unity.Settings.dll</HintPath>
     </Reference>
-    <Reference Include="NBitcoin">
-      <HintPath>Assets\Plugins\Bitcoin\NBitcoin.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets\Plugins\Bitcoin\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="QBitNinja.Client">
-      <HintPath>Assets\Plugins\Bitcoin\QBitNinja.Client.dll</HintPath>
-    </Reference>
     <Reference Include="ChannelPurchase">
       <HintPath>Assets\Plugins\UnityChannel\ChannelPurchase.dll</HintPath>
     </Reference>
@@ -709,6 +700,15 @@
     </Reference>
     <Reference Include="QRCode">
       <HintPath>Assets\QR&amp;Code Reader and Generator\Plugins\QRCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\YourBitcoinManager\Plugins\Bitcoin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="QBitNinja.Client">
+      <HintPath>Assets\YourBitcoinManager\Plugins\Bitcoin\QBitNinja.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="NBitcoin">
+      <HintPath>Assets\YourBitcoinManager\Plugins\Bitcoin\NBitcoin.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
