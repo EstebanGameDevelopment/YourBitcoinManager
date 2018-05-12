@@ -159,7 +159,7 @@ namespace YourBitcoinManager
 			LanguageController.Instance.Destroy();
 			CommController.Instance.Destroy();
 			BitCoinController.Instance.Destroy();
-			DestroyObject(_instance);
+			Destroy(_instance);
 			_instance = null;
 		}
 
@@ -293,12 +293,16 @@ namespace YourBitcoinManager
 			{
 				if (m_screensPool[i] != null)
 				{
-					if (m_screensPool[i].GetComponent<IBasicScreenView>() != null)
+					try
 					{
-						m_screensPool[i].GetComponent<IBasicScreenView>().Destroy();
+						if (m_screensPool[i].GetComponent<IBasicScreenView>() != null)
+						{
+							m_screensPool[i].GetComponent<IBasicScreenView>().Destroy();
+						}
+						GameObject.Destroy(m_screensPool[i]);
+						m_screensPool[i] = null;
 					}
-					GameObject.Destroy(m_screensPool[i]);
-					m_screensPool[i] = null;
+					catch (Exception err) { };
 				}
 			}
 			m_screensPool.Clear();
@@ -314,12 +318,16 @@ namespace YourBitcoinManager
 			{
 				if (m_screensOverlay[i] != null)
 				{
-					if (m_screensOverlay[i].GetComponent<IBasicScreenView>() != null)
+					try
 					{
-						m_screensOverlay[i].GetComponent<IBasicScreenView>().Destroy();
+						if (m_screensOverlay[i].GetComponent<IBasicScreenView>() != null)
+						{
+							m_screensOverlay[i].GetComponent<IBasicScreenView>().Destroy();
+						}
+						GameObject.Destroy(m_screensOverlay[i]);
+						m_screensOverlay[i] = null;
 					}
-					GameObject.Destroy(m_screensOverlay[i]);
-					m_screensOverlay[i] = null;
+					catch (Exception err) { };
 				}
 			}
 			m_screensOverlay.Clear();
@@ -365,9 +373,9 @@ namespace YourBitcoinManager
 		/* 
 		 * Remove the screen from the list of screens
 		 */
-		private void DestroyGameObjectSingleScreen(GameObject _screen, bool _runDestroy)
+		private bool DestroyPoolScreen(GameObject _screen, bool _runDestroy)
 		{
-			if (_screen == null) return;
+			if (_screen == null) return false;
 
 			for (int i = 0; i < m_screensPool.Count; i++)
 			{
@@ -383,11 +391,41 @@ namespace YourBitcoinManager
 					{ 						
 						GameObject.Destroy(screen);
 					}
-					return;
+					return true;
 				}
 			}
+
+			return false;
 		}
 
+		// -------------------------------------------
+		/* 
+		 * Remove the screen from the list of screens
+		 */
+		private bool DestroyOverlayScreen(GameObject _screen, bool _runDestroy)
+		{
+			if (_screen == null) return false;
+
+			for (int i = 0; i < m_screensOverlay.Count; i++)
+			{
+				GameObject screen = (GameObject)m_screensOverlay[i];
+				if (_screen == screen)
+				{
+					if (_runDestroy)
+					{
+						screen.GetComponent<IBasicScreenView>().Destroy();
+					}
+					m_screensOverlay.RemoveAt(i);
+					if (screen != null)
+					{
+						GameObject.Destroy(screen);
+					}
+					return true;
+				}
+			}
+
+			return false;
+		}
 		// -------------------------------------------
 		/* 
 		 * Manager of global events
@@ -398,8 +436,14 @@ namespace YourBitcoinManager
 			{
 				m_enableScreens = true;
 				GameObject screen = (GameObject)_list[0];
-				DestroyGameObjectSingleScreen(screen, true);
-				EnableScreens(true);
+				if (DestroyPoolScreen(screen, true))
+				{
+					EnableScreens(true);
+				}
+				else
+				{
+					DestroyOverlayScreen(screen, true);
+				}				
 			}
 			if (_nameEvent == ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_POPUP)
 			{

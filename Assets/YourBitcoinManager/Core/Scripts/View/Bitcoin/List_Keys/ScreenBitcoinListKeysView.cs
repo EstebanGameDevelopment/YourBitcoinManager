@@ -20,13 +20,6 @@ namespace YourBitcoinManager
 		public const string SCREEN_NAME = "SCREEN_LIST_KEYS";
 
 		// ----------------------------------------------
-		// EVENTS
-		// ----------------------------------------------	
-		public const string EVENT_SCREENBITCOINLISTKEYS_CURRENCY_CHANGED	= "EVENT_SCREENBITCOINLISTKEYS_CURRENCY_CHANGED";
-		public const string EVENT_SCREENBITCOINLISTKEYS_UPDATE_ACCOUNT_DATA = "EVENT_SCREENBITCOINLISTKEYS_UPDATE_ACCOUNT_DATA";
-		public const string EVENT_SCREENBITCOINLISTKEYS_NEW_CURRENCY_SELECTED = "EVENT_SCREENBITCOINLISTKEYS_NEW_CURRENCY_SELECTED";
-
-		// ----------------------------------------------
 		// PRIVATE MEMBERS
 		// ----------------------------------------------
 		private GameObject m_root;
@@ -122,7 +115,7 @@ namespace YourBitcoinManager
 		private void OnCurrencyChanged(int _index)
 		{
 			BitCoinController.Instance.CurrentCurrency = m_currencies.options[_index].text;
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_SCREENBITCOINLISTKEYS_CURRENCY_CHANGED);
+			BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED);
 		}
 
 		// -------------------------------------------
@@ -185,11 +178,11 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == EVENT_SCREENBITCOINLISTKEYS_UPDATE_ACCOUNT_DATA)
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA)
 			{
 				UpdateListItems();
 			}
-			if (_nameEvent == EVENT_SCREENBITCOINLISTKEYS_NEW_CURRENCY_SELECTED)
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_NEW_CURRENCY_SELECTED)
 			{
 				BitCoinController.Instance.CurrentCurrency = (string)_list[0];
 				int indexCurrentCurrency = -1;

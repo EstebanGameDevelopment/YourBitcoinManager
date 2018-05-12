@@ -45,7 +45,7 @@ namespace YourBitcoinManager
 		 */
 		public bool Destroy()
 		{
-			GameObject.DestroyObject(this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return true;
 		}

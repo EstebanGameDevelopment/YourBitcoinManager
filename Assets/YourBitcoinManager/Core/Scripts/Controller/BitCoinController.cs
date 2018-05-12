@@ -41,6 +41,9 @@ namespace YourBitcoinManager
 		public const string EVENT_BITCOINCONTROLLER_SELECTED_PRIVATE_KEY	= "EVENT_BITCOINCONTROLLER_SELECTED_PRIVATE_KEY";
 		public const string EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY		= "EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY";
 		public const string EVENT_BITCOINCONTROLLER_BALANCE_UPDATED			= "EVENT_BITCOINCONTROLLER_BALANCE_UPDATED";
+		public const string EVENT_BITCOINCONTROLLER_NEW_CURRENCY_SELECTED	= "EVENT_BITCOINCONTROLLER_NEW_CURRENCY_SELECTED";
+		public const string EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED		= "EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED";
+		public const string EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA		= "EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA";
 
 		public const string NETWORK_TEST = "TEST_";
 		public const string NETWORK_MAIN = "MAIN_";
@@ -306,7 +309,7 @@ namespace YourBitcoinManager
 		public void Destroy()
 		{
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			DestroyObject(_instance.gameObject);
+			Destroy(_instance.gameObject);
 			_instance = null;
 		}
 

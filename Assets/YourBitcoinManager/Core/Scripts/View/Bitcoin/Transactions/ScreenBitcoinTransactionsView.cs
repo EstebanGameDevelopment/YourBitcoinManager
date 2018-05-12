@@ -117,7 +117,7 @@ namespace YourBitcoinManager
 		private void OnCurrencyChanged(int _index)
 		{
 			BitCoinController.Instance.CurrentCurrency = m_currencies.options[_index].text;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenBitcoinListKeysView.EVENT_SCREENBITCOINLISTKEYS_CURRENCY_CHANGED);
+			BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED);
 		}
 
 		// -------------------------------------------
@@ -225,7 +225,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == ScreenBitcoinListKeysView.EVENT_SCREENBITCOINLISTKEYS_UPDATE_ACCOUNT_DATA)
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA)
 			{
 				m_listKeys.GetComponent<SlotManagerView>().ClearCurrentGameObject(true);
 				Invoke("UpdateListItems", 0.1f);

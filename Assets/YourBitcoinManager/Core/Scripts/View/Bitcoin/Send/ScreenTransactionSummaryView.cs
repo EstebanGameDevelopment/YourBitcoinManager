@@ -96,7 +96,7 @@ namespace YourBitcoinManager
 			if (base.Destroy()) return true;
 
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			GameObject.DestroyObject(this.gameObject);
+			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
 
 			return false;
 		}

@@ -73,7 +73,7 @@ namespace YourBitcoinManager
 		public bool Destroy()
 		{
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			GameObject.DestroyObject(this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return true;
 		}
@@ -120,7 +120,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == ScreenBitcoinListKeysView.EVENT_SCREENBITCOINLISTKEYS_CURRENCY_CHANGED)
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED)
 			{
 				UpdateCurrency();
 			}

@@ -74,7 +74,7 @@ namespace YourBitcoinManager
 		 */
 		public void Destroy()
 		{
-			DestroyObject(_instance.gameObject);
+			Destroy(_instance.gameObject);
 			_instance = null;
 		}
 

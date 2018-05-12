@@ -268,7 +268,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnCurrencyChanged(int _index)
 		{
-			BasicEventController.Instance.DispatchBasicEvent(ScreenBitcoinListKeysView.EVENT_SCREENBITCOINLISTKEYS_NEW_CURRENCY_SELECTED, m_currencies.options[_index].text);
+			BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_NEW_CURRENCY_SELECTED, m_currencies.options[_index].text);
 
 			m_currencySelected = m_currencies.options[_index].text;
 			m_exchangeToBitcoin = (decimal)BitCoinController.Instance.CurrenciesExchange[m_currencySelected];

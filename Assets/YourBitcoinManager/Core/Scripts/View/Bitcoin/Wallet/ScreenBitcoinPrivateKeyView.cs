@@ -493,7 +493,7 @@ namespace YourBitcoinManager
 				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.private.key.saved.success"), null, "");
 				m_hasChanged = false;
 				BitCoinController.Instance.CurrentPrivateKey = privateKey;
-				BasicEventController.Instance.DispatchBasicEvent(ScreenBitcoinListKeysView.EVENT_SCREENBITCOINLISTKEYS_UPDATE_ACCOUNT_DATA);
+				BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA);
 			}
 			else
 			{
@@ -559,7 +559,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == ScreenBitcoinListKeysView.EVENT_SCREENBITCOINLISTKEYS_CURRENCY_CHANGED)
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED)
 			{
 				float balanceInCurrency = (float)(m_balanceValue * BitCoinController.Instance.CurrenciesExchange[BitCoinController.Instance.CurrentCurrency]);
 				m_balance.text = m_balanceValue.ToString() + " BTC" + " /\n" + balanceInCurrency + " " + BitCoinController.Instance.CurrentCurrency;
@@ -582,7 +582,7 @@ namespace YourBitcoinManager
 					if ((bool)_list[1])
 					{
 						BitCoinController.Instance.RemovePrivateKey(BitCoinController.Instance.CurrentPrivateKey);
-						BasicEventController.Instance.DispatchBasicEvent(ScreenBitcoinListKeysView.EVENT_SCREENBITCOINLISTKEYS_UPDATE_ACCOUNT_DATA);
+						BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA);
 						BitCoinController.Instance.BackupCurrentPrivateKey = "";
 						Destroy();
 					}
