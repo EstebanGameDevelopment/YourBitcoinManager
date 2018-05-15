@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
+using YourBitcoinController;
 
 namespace YourBitcoinManager
 {
@@ -19,13 +20,6 @@ namespace YourBitcoinManager
 	 */
 	public class BasicEventController : MonoBehaviour
 	{
-		// ----------------------------------------------
-		// EVENTS
-		// ----------------------------------------------	
-		public const string EVENT_BASICEVENT_DELAYED_CALL = "EVENT_0037";
-		public const string EVENT_BASICEVENT_TOTAL_UNITS_AVAILABLE = "EVENT_0038";
-		public const string EVENT_BASICEVENT_TOTAL_TIME = "EVENT_0039";
-
 		public event BasicEventHandler BasicEvent;
 
 		// ----------------------------------------------
@@ -70,8 +64,8 @@ namespace YourBitcoinManager
 
 		// -------------------------------------------
 		/* 
-		 * Destroy
-		 */
+		* Destroy
+		*/
 		public void Destroy()
 		{
 			Destroy(_instance.gameObject);

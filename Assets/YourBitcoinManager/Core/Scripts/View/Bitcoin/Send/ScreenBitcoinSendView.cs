@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourBitcoinController;
 
 namespace YourBitcoinManager
 {
@@ -183,6 +184,7 @@ namespace YourBitcoinManager
 			m_container.Find("Pay/ExecutePayment").GetComponent<Button>().onClick.AddListener(OnExecutePayment);
 
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 
 			// UPDATE SELECTION CURRENCY
 			m_currencies.value = 1;
@@ -212,6 +214,7 @@ namespace YourBitcoinManager
 			if (base.Destroy()) return true;
 
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
 			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
 
 			return false;
@@ -268,7 +271,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnCurrencyChanged(int _index)
 		{
-			BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_NEW_CURRENCY_SELECTED, m_currencies.options[_index].text);
+			BitcoinEventController.Instance.DispatchBitcoinEvent(BitCoinController.EVENT_BITCOINCONTROLLER_NEW_CURRENCY_SELECTED, m_currencies.options[_index].text);
 
 			m_currencySelected = m_currencies.options[_index].text;
 			m_exchangeToBitcoin = (decimal)BitCoinController.Instance.CurrenciesExchange[m_currencySelected];
@@ -475,6 +478,45 @@ namespace YourBitcoinManager
 
 		// -------------------------------------------
 		/* 
+		 * OnBitcoinEvent
+		 */
+		private void OnBitcoinEvent(string _nameEvent, params object[] _list)
+		{
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_TRANSACTION_DONE)
+			{
+				if ((bool)_list[0])
+				{
+					HasChanged = false;
+					BitCoinController.Instance.RefreshBalancePrivateKeys();
+					BasicEventController.Instance.DispatchBasicEvent(ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_POPUP);
+					ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.send.transaction.success"), null, "");
+				}
+				else
+				{
+					BasicEventController.Instance.DispatchBasicEvent(ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_POPUP);
+					string messageError = LanguageController.Instance.GetText("screen.bitcoin.send.transaction.error");
+					if (_list.Length >= 2)
+					{
+						messageError = (string)_list[1];
+					}
+					ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.error"), messageError, null, "");
+				}
+			}
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY)
+			{
+				string publicKeyAddress = (string)_list[0];
+				HasChanged = true;
+				m_publicAddressInput.text = publicKeyAddress;
+				m_publicAddressToSend = publicKeyAddress;
+				ValidPublicKeyToSend = BitCoinController.Instance.ValidatePublicKey(m_publicAddressToSend);
+#if DEBUG_MODE_DISPLAY_LOG
+				Debug.Log("EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY::PUBLIC KEY ADDRESS=" + publicKeyAddress);
+#endif
+			}
+		}
+
+		// -------------------------------------------
+		/* 
 		 * OnBasicEvent
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
@@ -490,17 +532,6 @@ namespace YourBitcoinManager
 					m_container.Find("Address/Label").GetComponent<Text>().text = label;
 					m_container.Find("Address/Label").GetComponent<Text>().color = Color.red;
 				}
-			}
-			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY)
-			{
-				string publicKeyAddress = (string)_list[0];
-				HasChanged = true;
-				m_publicAddressInput.text = publicKeyAddress;
-				m_publicAddressToSend = publicKeyAddress;								
-				ValidPublicKeyToSend = BitCoinController.Instance.ValidatePublicKey(m_publicAddressToSend);
-#if DEBUG_MODE_DISPLAY_LOG
-				Debug.Log("EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY::PUBLIC KEY ADDRESS=" + publicKeyAddress);
-#endif
 			}
 			if (_nameEvent == EVENT_SCREENBITCOINSEND_USER_CONFIRMED_RUN_TRANSACTION)
 			{
@@ -527,26 +558,6 @@ namespace YourBitcoinManager
 					{
 						SummaryTransactionForLastConfirmation();
 					}
-				}
-			}
-			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_TRANSACTION_DONE)
-			{
-				if ((bool)_list[0])
-				{
-					HasChanged = false;
-					BitCoinController.Instance.RefreshBalancePrivateKeys();
-					BasicEventController.Instance.DispatchBasicEvent(ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_POPUP);					
-					ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.send.transaction.success"), null, "");
-				}
-				else
-				{
-					BasicEventController.Instance.DispatchBasicEvent(ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_POPUP);
-					string messageError = LanguageController.Instance.GetText("screen.bitcoin.send.transaction.error");
-					if (_list.Length >= 2)
-					{
-						messageError = (string)_list[1];
-					}
-					ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.error"), messageError, null, "");
 				}
 			}
 			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)

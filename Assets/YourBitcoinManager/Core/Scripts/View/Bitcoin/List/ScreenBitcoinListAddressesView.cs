@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourBitcoinController;
 
 namespace YourBitcoinManager
 {
@@ -100,7 +101,7 @@ namespace YourBitcoinManager
 			if (_nameEvent == SlotAddressView.EVENT_SLOT_ADDRESS_SELECTED)
 			{
 				string addressSelected = (string)_list[0];
-				BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY, addressSelected);
+				BitcoinEventController.Instance.DispatchBitcoinEvent(BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY, addressSelected);
 				Destroy();
 			}
 			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)

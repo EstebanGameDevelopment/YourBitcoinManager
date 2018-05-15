@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourBitcoinController;
 
 namespace YourBitcoinManager
 {
@@ -85,6 +86,7 @@ namespace YourBitcoinManager
 			}			
 
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 
 			m_container.Find("Network").GetComponent<Text>().text = LanguageController.Instance.GetText("text.network") + BitCoinController.Instance.Network.ToString();
 
@@ -103,6 +105,7 @@ namespace YourBitcoinManager
 			m_listKeys = null;
 
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
 			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
 
 			return false;
@@ -115,7 +118,7 @@ namespace YourBitcoinManager
 		private void OnCurrencyChanged(int _index)
 		{
 			BitCoinController.Instance.CurrentCurrency = m_currencies.options[_index].text;
-			BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED);
+			BitcoinEventController.Instance.DispatchBitcoinEvent(BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED);
 		}
 
 		// -------------------------------------------
@@ -174,14 +177,10 @@ namespace YourBitcoinManager
 
 		// -------------------------------------------
 		/* 
-		 * OnBasicEvent
+		 * Manager of global events
 		 */
-		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		private void OnBitcoinEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA)
-			{
-				UpdateListItems();
-			}
 			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_NEW_CURRENCY_SELECTED)
 			{
 				BitCoinController.Instance.CurrentCurrency = (string)_list[0];
@@ -201,6 +200,18 @@ namespace YourBitcoinManager
 					m_currencies.value = indexCurrentCurrency;
 				}
 			}
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA)
+			{
+				UpdateListItems();
+			}
+		}
+
+		// -------------------------------------------
+		/* 
+		 * OnBasicEvent
+		 */
+		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		{
 
 			if (!this.gameObject.activeSelf) return;
 
@@ -226,7 +237,7 @@ namespace YourBitcoinManager
 				}
 				else
 				{
-					BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY, BitCoinController.Instance.GetPublicKey((string)_list[0]));
+					BitcoinEventController.Instance.DispatchBitcoinEvent(BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY, BitCoinController.Instance.GetPublicKey((string)_list[0]));
 					Destroy();
 				}
 			}

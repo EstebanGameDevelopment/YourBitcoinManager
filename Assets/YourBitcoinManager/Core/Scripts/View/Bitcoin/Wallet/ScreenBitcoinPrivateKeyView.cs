@@ -5,6 +5,7 @@ using System.Text;
 using NBitcoin;
 using UnityEngine;
 using UnityEngine.UI;
+using YourBitcoinController;
 
 namespace YourBitcoinManager
 {
@@ -176,6 +177,7 @@ namespace YourBitcoinManager
 			m_createNewWallet.transform.Find("Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.create.new.wallet");
 
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 
 			LoadDataPrivateKey();
 
@@ -195,6 +197,7 @@ namespace YourBitcoinManager
 			BitCoinController.Instance.RestoreCurrentPrivateKey();
 
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
 			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
 
 			return false;
@@ -493,7 +496,7 @@ namespace YourBitcoinManager
 				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.private.key.saved.success"), null, "");
 				m_hasChanged = false;
 				BitCoinController.Instance.CurrentPrivateKey = privateKey;
-				BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA);
+				BitcoinEventController.Instance.DispatchBitcoinEvent(BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA);
 			}
 			else
 			{
@@ -555,16 +558,49 @@ namespace YourBitcoinManager
 
 		// -------------------------------------------
 		/* 
-		 * OnBasicEvent
+		 * OnBitcoinEvent
 		 */
-		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		private void OnBitcoinEvent(string _nameEvent, params object[] _list)
 		{
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_JSON_EXCHANGE_TABLE)
+			{
+				ScreenController.Instance.CreateNewScreen(ScreenExchangeTableView.SCREEN_EXCHANGE_TABLE, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, m_balanceValue, (string)_list[0]);
+			}
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_BALANCE_WALLET)
+			{
+#if DEBUG_MODE_DISPLAY_LOG
+				Debug.Log("EVENT_BITCOINCONTROLLER_BALANCE_WALLET::m_balanceValue=" + m_balanceValue);
+#endif
+				m_balanceValue = (decimal)((float)_list[0]);
+				m_buttonBalance.SetActive(true);
+				m_outputTransactionHistory.SetActive(true);
+				m_inputTransactionHistory.SetActive(true);
+				m_exchangeTable.SetActive(true);
+				m_createNewWallet.SetActive(false);
+				if (m_enableEdition)
+				{
+					if (m_enableDelete)
+					{
+						m_buttonDelete.SetActive(true);
+					}
+				}
+				float balanceInCurrency = (float)(m_balanceValue * BitCoinController.Instance.CurrenciesExchange[BitCoinController.Instance.CurrentCurrency]);
+				m_balance.text = m_balanceValue.ToString() + " BTC" + " /\n" + balanceInCurrency + " " + BitCoinController.Instance.CurrentCurrency;
+				m_requestCheckValidKey = false;
+			}
 			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED)
 			{
 				float balanceInCurrency = (float)(m_balanceValue * BitCoinController.Instance.CurrenciesExchange[BitCoinController.Instance.CurrentCurrency]);
 				m_balance.text = m_balanceValue.ToString() + " BTC" + " /\n" + balanceInCurrency + " " + BitCoinController.Instance.CurrentCurrency;
 			}
+		}
 
+		// -------------------------------------------
+		/* 
+		 * OnBasicEvent
+		 */
+		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		{
 			if (!this.gameObject.activeSelf) return;
 
 			if (_nameEvent == ScreenInformationView.EVENT_SCREENINFORMATION_CONFIRMATION_POPUP)
@@ -582,7 +618,7 @@ namespace YourBitcoinManager
 					if ((bool)_list[1])
 					{
 						BitCoinController.Instance.RemovePrivateKey(BitCoinController.Instance.CurrentPrivateKey);
-						BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA);
+						BitcoinEventController.Instance.DispatchBitcoinEvent(BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA);
 						BitCoinController.Instance.BackupCurrentPrivateKey = "";
 						Destroy();
 					}
@@ -613,32 +649,6 @@ namespace YourBitcoinManager
 			{
 				m_completeKey.contentType = UnityEngine.UI.InputField.ContentType.Password;
 				m_completeKey.ForceLabelUpdate();
-			}
-			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_BALANCE_WALLET)
-			{
-#if DEBUG_MODE_DISPLAY_LOG
-				Debug.Log("EVENT_BITCOINCONTROLLER_BALANCE_WALLET::m_balanceValue=" + m_balanceValue);
-#endif
-				m_balanceValue = (decimal)((float)_list[0]);
-				m_buttonBalance.SetActive(true);
-				m_outputTransactionHistory.SetActive(true);
-				m_inputTransactionHistory.SetActive(true);
-				m_exchangeTable.SetActive(true);
-				m_createNewWallet.SetActive(false);
-				if (m_enableEdition)
-				{
-					if (m_enableDelete)
-					{
-						m_buttonDelete.SetActive(true);
-					}					
-				}
-				float balanceInCurrency = (float)(m_balanceValue * BitCoinController.Instance.CurrenciesExchange[BitCoinController.Instance.CurrentCurrency]);
-				m_balance.text = m_balanceValue.ToString() + " BTC" + " /\n" + balanceInCurrency + " " + BitCoinController.Instance.CurrentCurrency;
-				m_requestCheckValidKey = false;
-			}
-			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_JSON_EXCHANGE_TABLE)
-			{
-				ScreenController.Instance.CreateNewScreen(ScreenExchangeTableView.SCREEN_EXCHANGE_TABLE, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, m_balanceValue, (string)_list[0]);
 			}
 			if (_nameEvent == EVENT_SCREENPROFILE_LOAD_SCREEN_EXCHANGE_TABLES_INFO)
 			{

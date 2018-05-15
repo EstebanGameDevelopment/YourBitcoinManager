@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using YourBitcoinController;
 
 namespace YourBitcoinManager
 {
@@ -126,6 +127,7 @@ namespace YourBitcoinManager
 #endif
 
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 
 			// Debug.LogError("///////////////////////////////////////////////////////////////////////////////////////////");
 			LanguageController.Instance.LoadTextsXML();
@@ -156,6 +158,7 @@ namespace YourBitcoinManager
 		public void Destroy()
 		{
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
 			LanguageController.Instance.Destroy();
 			CommController.Instance.Destroy();
 			BitCoinController.Instance.Destroy();
@@ -426,6 +429,25 @@ namespace YourBitcoinManager
 
 			return false;
 		}
+
+		// -------------------------------------------
+		/* 
+		 * Manager of global events
+		 */
+		private void OnBitcoinEvent(string _nameEvent, params object[] _list)
+		{
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_ALL_DATA_COLLECTED)
+			{
+				if (!m_hasBeenInitialized)
+				{
+					m_hasBeenInitialized = true;
+					BitCoinController.Instance.LoadPrivateKeys(true);
+
+					CreateNewScreenNoParameters(ScreenToLoad, TypePreviousActionEnum.DESTROY_ALL_SCREENS);
+				}
+			}
+		}
+
 		// -------------------------------------------
 		/* 
 		 * Manager of global events
@@ -482,16 +504,6 @@ namespace YourBitcoinManager
 						}
 					}
 				}
-			}
-			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_ALL_DATA_COLLECTED)
-			{
-				if (!m_hasBeenInitialized)
-				{
-					m_hasBeenInitialized = true;
-					BitCoinController.Instance.LoadPrivateKeys(true);
-					
-					CreateNewScreenNoParameters(ScreenToLoad, TypePreviousActionEnum.DESTROY_ALL_SCREENS);
-				}				
 			}
 		}
 

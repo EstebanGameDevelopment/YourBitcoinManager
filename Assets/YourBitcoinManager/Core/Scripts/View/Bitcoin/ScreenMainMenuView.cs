@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourBitcoinController;
 
 namespace YourBitcoinManager
 {
@@ -97,6 +98,7 @@ namespace YourBitcoinManager
 			m_accessToMainBitcoinNetwork = (PlayerPrefs.GetInt(PAID_ACCESS_MAIN_BITCOIN_NETWORK, 0) == 1);
 
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 		}
 
 		// -------------------------------------------
@@ -108,6 +110,8 @@ namespace YourBitcoinManager
 			if (base.Destroy()) return true;
 			
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
+
 			GameObject.Destroy(this.gameObject);
 			return false;
 		}
@@ -281,15 +285,26 @@ namespace YourBitcoinManager
 
 		// -------------------------------------------
 		/* 
-		 * OnBasicEvent
+		 * Manager of global events
 		 */
-		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		private void OnBitcoinEvent(string _nameEvent, params object[] _list)
 		{
 			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PRIVATE_KEY)
 			{
 				UpdateBitcoinWallet();
 			}
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED)
+			{
+				UpdateBitcoinWallet();
+			}
+		}
 
+		// -------------------------------------------
+		/* 
+		 * OnBasicEvent
+		 */
+		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		{
 			if (!this.gameObject.activeSelf) return;
 
 			if (_nameEvent == ScreenInformationView.EVENT_SCREENINFORMATION_CONFIRMATION_POPUP)

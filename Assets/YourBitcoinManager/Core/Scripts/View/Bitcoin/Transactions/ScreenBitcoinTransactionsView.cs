@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourBitcoinController;
 
 namespace YourBitcoinManager
 {
@@ -81,6 +82,7 @@ namespace YourBitcoinManager
 			}			
 
 			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 
 			m_container.Find("Network").GetComponent<Text>().text = LanguageController.Instance.GetText("text.network") + BitCoinController.Instance.Network.ToString();
 
@@ -105,6 +107,8 @@ namespace YourBitcoinManager
 			m_listKeys = null;
 
 			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
+
 			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
 
 			return false;
@@ -117,7 +121,7 @@ namespace YourBitcoinManager
 		private void OnCurrencyChanged(int _index)
 		{
 			BitCoinController.Instance.CurrentCurrency = m_currencies.options[_index].text;
-			BasicEventController.Instance.DispatchBasicEvent(BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED);
+			BitcoinEventController.Instance.DispatchBitcoinEvent(BitCoinController.EVENT_BITCOINCONTROLLER_CURRENCY_CHANGED);
 		}
 
 		// -------------------------------------------
@@ -219,18 +223,26 @@ namespace YourBitcoinManager
 			Destroy();
 		}
 
+
 		// -------------------------------------------
 		/* 
-		 * OnBasicEvent
+		 * Manager of global events
 		 */
-		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		private void OnBitcoinEvent(string _nameEvent, params object[] _list)
 		{
 			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_UPDATE_ACCOUNT_DATA)
 			{
 				m_listKeys.GetComponent<SlotManagerView>().ClearCurrentGameObject(true);
 				Invoke("UpdateListItems", 0.1f);
 			}
-			
+		}
+
+		// -------------------------------------------
+		/* 
+		 * OnBasicEvent
+		 */
+		private void OnBasicEvent(string _nameEvent, params object[] _list)
+		{
 			if (!this.gameObject.activeSelf) return;
 
 			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
