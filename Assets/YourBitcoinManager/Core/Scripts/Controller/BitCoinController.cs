@@ -7,9 +7,20 @@ using QBitNinja.Client;
 using System.Text;
 using QBitNinja.Client.Models;
 using UnityEngine.Networking;
+using System.Security.Cryptography;
 
 namespace YourBitcoinManager
 {
+	public static class ArrayExtensions
+	{
+		public static T[] SubArray<T>(this T[] data, int index, int length)
+		{
+			var result = new T[length];
+			Array.Copy(data, index, result, 0, length);
+			return result;
+		}
+	}
+
 	/******************************************
 	 * 
 	 * BitCoinController
@@ -685,9 +696,7 @@ namespace YourBitcoinManager
 		{
 			try
 			{
-				BitcoinPubKeyAddress btkAddress = new BitcoinPubKeyAddress(_publicKey, BitCoinController.Instance.Network);
-				string publicKeyVerification = btkAddress.ScriptPubKey.GetDestinationAddress(BitCoinController.Instance.Network).ToString();
-				return publicKeyVerification == _publicKey;
+				return ValidateBitcoinAddress(_publicKey);				
 			} catch (Exception err)
 			{
 #if DEBUG_MODE_DISPLAY_LOG
@@ -695,6 +704,56 @@ namespace YourBitcoinManager
 #endif
 				return false;
 			}
+		}
+
+		// -------------------------------------------
+		/* 
+		* ValidateBitcoinAddress
+		*/
+		public static bool ValidateBitcoinAddress(string address)
+		{
+			if (address.Length < 26 || address.Length > 35) return false;
+			byte[] decoded = DecodeBase58(address);
+			var d1 = Hash(decoded.SubArray(0, 21));
+			var d2 = Hash(d1);
+			if (!decoded.SubArray(21, 4).SequenceEqual(d2.SubArray(0, 4))) return false;
+			return true;
+		}
+
+		private const string Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+		private const int Size = 25;
+
+		// -------------------------------------------
+		/* 
+		* DecodeBase58
+		*/
+		private static byte[] DecodeBase58(string _input)
+		{
+			var output = new byte[Size];
+			foreach (var t in _input)
+			{
+				var p = Alphabet.IndexOf(t);
+				if (p == -1) throw new Exception("invalid character found");
+				var j = Size;
+				while (--j > 0)
+				{
+					p += 58 * output[j];
+					output[j] = (byte)(p % 256);
+					p /= 256;
+				}
+				if (p != 0) throw new Exception("address too long");
+			}
+			return output;
+		}
+
+		// -------------------------------------------
+		/* 
+		* Hash
+		*/
+		private static byte[] Hash(byte[] _bytes)
+		{
+			var hasher = new SHA256Managed();
+			return hasher.ComputeHash(_bytes);
 		}
 
 		// -------------------------------------------

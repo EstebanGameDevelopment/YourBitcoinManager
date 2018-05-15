@@ -142,6 +142,7 @@ namespace YourBitcoinManager
 			if ((m_buttonNext != null) && (m_buttonPrevious != null) && (m_data.Count > m_itemsEachPage))
 			{
 				ClearCurrentGameObject(false);
+				this.gameObject.transform.Find("ScrollContent").GetComponent<ScrollRect>().verticalNormalizedPosition = 1;
 
 				int initialItem = m_currentPage * m_itemsEachPage;
 				int finalItem = initialItem + m_itemsEachPage;
