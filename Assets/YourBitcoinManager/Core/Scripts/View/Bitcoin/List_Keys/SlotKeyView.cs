@@ -40,7 +40,7 @@ namespace YourBitcoinManager
 		 */
 		public void Initialize(params object[] _list)
 		{
-			ItemMultiObjectEntry item = (ItemMultiObjectEntry)_list[0];
+			ItemMultiObjects item = (ItemMultiObjects)_list[0];
 
 			m_container = this.gameObject.transform;
 			

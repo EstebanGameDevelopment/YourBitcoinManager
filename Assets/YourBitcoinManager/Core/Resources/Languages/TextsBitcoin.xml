@@ -18,6 +18,11 @@
     <es>Recibir Pago</es>
   </text>
 
+  <text id="screen.main.menu.sign.data">
+    <en>Sign Data and Documents</en>
+    <es>Firmar Datos y Documentos</es>
+  </text>
+
   <text id="screen.main.menu.check.wallet">
     <en>Your Wallet</en>
     <es>Tu Monedero</es>
@@ -31,6 +36,11 @@
   <text id="screen.list.select.wallet.to.receive.payment">
     <en>Select the wallet to receive the payment:</en>
     <es>Elige la cartera para recibir el pago:</es>
+  </text>
+
+  <text id="screen.list.select.wallet.to.sign.data">
+    <en>Select the address to use to sign the data:</en>
+    <es>Elige la dirección a usar para firmar los datos:</es>
   </text>
 
   <text id="screen.main.menu.selected.account">
@@ -275,6 +285,11 @@
     <es>Operacion cancelada</es>
   </text>
 
+  <text id="message.selected">
+    <en>Selected</en>
+    <es>Elegida</es>
+  </text>
+
   <text id="message.amount">
     <en>Amount</en>
     <es>Cantidad</es>
@@ -283,6 +298,11 @@
   <text id="message.fee">
     <en>Fee</en>
     <es>Tasa</es>
+  </text>
+
+  <text id="message.email.address">
+    <en>Write your email address</en>
+    <es>Escribe tu dirección de correo</es>
   </text>
 
   <text id="message.do.you.want.exit">
@@ -355,6 +375,21 @@
     <es>No hay registros</es>
   </text>
 
+  <text id="screen.navigator.select.a.file">
+    <en>Select a file</en>
+    <es>Elige un ficher</es>
+  </text>
+
+    <text id="screen.navigator.file.system">
+    <en>File System Browser</en>
+    <es>Navegador de ficheros</es>
+  </text>
+
+  <text id="message.data.missing">
+    <en>Data Missing to perform the operation</en>
+    <es>Falta información para ejecutar la operación</es>
+  </text>
+
   <!-- BITCOIN -->
   <text id="screen.scanqrcode.title">
     <en>Scan QR Code</en>
@@ -370,6 +405,16 @@
     <en>Confirm Code QR</en>
     <es>Confirmar codigo QR</es>
   </text>
+
+  <text id="message.type.data.string">
+    <en>String Data</en>
+    <es>Datos de cadena</es>
+  </text>
+
+  <text id="message.type.data.file">
+    <en>File Data</en>
+    <es>Datos de fichero</es>
+  </text>  
 
   <!-- BITCOIN SEND -->
   <text id="screen.send.write.destination.address">
@@ -561,6 +606,115 @@
   <text id="screen.list.select.wallet.used.to.pay">
     <en>Select the wallet you want to use to pay</en>
     <es>Elige la cartera que deseas utilizar para pagar</es>
+  </text>
+
+  <text id="screen.bitcoin.select.data.to.sign">
+    <en>Select in order the data and documents you want to sign</en>
+    <es>Elija en orden los datos y documentos que desee firmar</es>
+  </text>
+
+  <text id="screen.bitcoin.select.data.to.verify">
+    <en>Select in order the data and documents you want to verify authenticity</en>
+    <es>Elija en orden los datos y documentos que desee verificar su autenticidad</es>
+  </text>  
+
+  <text id="screen.bitcoin.sign.data">
+    <en>Sign Data With % Address</en>
+    <es>Firmar datos con la % dirección</es>
+  </text>
+
+  <text id="screen.bitcoin.verify.data">
+    <en>Verify Selected Data</en>
+    <es>Verificar Datos Seleccionados</es>
+  </text>
+  <text id="screen.bitcoin.sign.add.new.data.document">
+    <en>Add new data or document to sign</en>
+    <es>Añadir nuevos datos o documento a firmar</es>
+  </text>
+
+  <text id="screen.bitcoin.sign.select.data">
+    <en>Select data to enter</en>
+    <es>Elije datos para entrar</es>
+  </text>
+
+  <text id="screen.bitcoin.sign.type.data.add.text">
+    <en>Add New Text</en>
+    <es>Añade Mensaje de Texto</es>
+  </text>
+
+  <text id="screen.bitcoin.sign.type.data.add.file">
+    <en>Add New File</en>
+    <es>Añade Nuevo Fichero</es>
+  </text>
+
+  <text id="screen.bitcoin.operation.sign.verification">
+    <en>Choose the operation about sign</en>
+    <es>Elige operación sobre firmado</es>
+  </text>
+  
+  <text id="screen.bitcoin.operation.sign.your.documents">
+    <en>Sign your data</en>
+    <es>Firma tus datos</es>
+  </text>
+
+  <text id="screen.bitcoin.operation.sign.verify.documents">
+    <en>Verify Signning Authenticity</en>
+    <es>Verificación Autenticidad Firmado</es>
+  </text>
+
+  <text id="screen.bitcoin.sign.write.text.you.want.signed">
+    <en>Write the text you want to sign</en>
+    <es>Escribe el texto que quieres firmar</es>
+  </text>
+
+  <text id="screen.bitcoin.here.is.your.signed.data">
+    <en>Here is your signed data</en>
+    <es>Aqui esta tu firma sobre los datos</es>
+  </text>
+
+  <text id="message.your.signed.data.for.your.public.key">
+    <en>Your Signed Data for your public key: </en>
+    <es>Tus datos firmados para tu llave pública: </es>
+  </text>
+
+  <text id="screen.bicoin.sign.write.public.address.verify">
+    <en>Write the public address to use in the verification</en>
+    <es>Escribe la dirección pública para la verificación</es>
+  </text>
+
+  <text id="screen.bitcoin.sign.write.data.signed.to.verify">
+    <en>Write the signed data</en>
+    <es>Escribe los datos de firma</es>
+  </text>
+
+  <text id="screen.bitcoin.start.verification">
+    <en>Verify Signed Data</en>
+    <es>Verificar Datos Firmados</es>
+  </text>
+
+  <text id="screen.bitcoin.sign.validation.success">
+    <en>Verified Authenticity Success</en>
+    <es>Verificación Exitosa de Autenticidad</es>
+  </text>
+
+  <text id="screen.bitcoin.sign.validation.failed">
+    <en>Failure to validate Authenticity</en>
+    <es>Fracaso al validar Autenticidad</es>
+  </text>
+
+  <text id="screen.bitcoin.title.signed">
+    <en>Data Signed</en>
+    <es>Datos Firmados</es>
+  </text>
+
+  <text id="screen.bitcoin.public.key.used.in.signning">
+    <en>Public Key Used for Signning</en>
+    <es>Llave publica usada para firmar</es>
+  </text>
+
+  <text id="screen.bitcoin.sign.no.data.to.sign">
+    <en>No data or documents to sign</en>
+    <es>No hay datos o documentos para firmar</es>
   </text>
 
   <!-- BITCOIN LIST ADDRESSES -->

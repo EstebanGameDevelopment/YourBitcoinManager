@@ -164,7 +164,7 @@ namespace YourBitcoinManager
 			}
 
 			
-			List<ItemMultiObjectEntry> items = null;
+			List<ItemMultiObjects> items = null;
 			switch (m_transactionConsultType)
 			{
 				case TRANSACTION_CONSULT_INPUTS:

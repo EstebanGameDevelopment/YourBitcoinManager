@@ -370,6 +370,8 @@ MonoBehaviour:
     type: 2}
   SlotAddKeyPrefab: {fileID: 1039488447377850, guid: e14d136d1e34695479589153d9ee971a,
     type: 2}
+  SignedDataOK: {fileID: 21300000, guid: c3fca663c4c4bab40abde8d806e1574d, type: 3}
+  SignedDataFailed: {fileID: 21300000, guid: b44388c9e5bcc664496ddc64723c1429, type: 3}
   ScreensPrefabs:
   - {fileID: 1189355751075940, guid: a64670e476225c349971ebd184e8b520, type: 2}
   - {fileID: 174312, guid: 64c69f71756246b46b15b17a1c0cd750, type: 2}
@@ -392,6 +394,14 @@ MonoBehaviour:
   - {fileID: 1475303523904588, guid: c77063711fb1e9e46bc28072a34c3aa5, type: 2}
   - {fileID: 1395187061141274, guid: a1eee353443481647882716642cdce8c, type: 2}
   - {fileID: 1511915010249044, guid: 700481b76eb9e784095647fcb2d1b9de, type: 2}
+  - {fileID: 1403143172617720, guid: 617efc8ae5cad264f81f58e4b00b1585, type: 2}
+  - {fileID: 1115629885375538, guid: 47f5337d8fe2b7149aea0d8c900c8a47, type: 2}
+  - {fileID: 1355604436692316, guid: b50b0b327b4557846b60f8a647fc23d1, type: 2}
+  - {fileID: 1756410128791602, guid: 85bee9bb7681de04c9eea6ca3faa170c, type: 2}
+  - {fileID: 1218937611381116, guid: e739548749a429f47b98570bfe321657, type: 2}
+  - {fileID: 1128358460720428, guid: 1e14054a6369c6c47a5f50dcaa6f15fc, type: 2}
+  - {fileID: 1762543722362250, guid: f1149353402c50849aee8eaa345b371b, type: 2}
+  - {fileID: 1990387939379808, guid: 1b6515782d3c5744bb38aed87e13a944, type: 2}
 --- !u!4 &1672302802
 Transform:
   m_ObjectHideFlags: 0

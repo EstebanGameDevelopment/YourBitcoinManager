@@ -43,7 +43,7 @@ namespace YourBitcoinManager
 		 */
 		public void Initialize(params object[] _list)
 		{
-			ItemMultiObjectEntry item = (ItemMultiObjectEntry)_list[0];
+			ItemMultiObjects item = (ItemMultiObjects)_list[0];
 
 			m_container = this.gameObject.transform;
 			
@@ -53,11 +53,11 @@ namespace YourBitcoinManager
 			m_fee = (decimal)item.Objects[4];
 			m_title = (string)item.Objects[5];
 
-			List<ItemMultiTextEntry> transactionScriptPubKey = (List<ItemMultiTextEntry>)item.Objects[6];
+			List<ItemMultiTexts> transactionScriptPubKey = (List<ItemMultiTexts>)item.Objects[6];
 			string addresses = "";
 			for (int i = 0; i < transactionScriptPubKey.Count; i++)
 			{
-				ItemMultiTextEntry sitem = transactionScriptPubKey[i];
+				ItemMultiTexts sitem = transactionScriptPubKey[i];
 				if (addresses.Length > 0)
 				{
 					addresses += ":";

@@ -71,6 +71,8 @@ namespace YourBitcoinManager
 		public string ScreenToLoad;
 		public GameObject SlotDisplayKeyPrefab;
 		public GameObject SlotAddKeyPrefab;
+		public Sprite SignedDataOK;
+		public Sprite SignedDataFailed;
 
 		[Tooltip("All the screens used by the application")]
 		public GameObject[] ScreensPrefabs;
@@ -164,24 +166,6 @@ namespace YourBitcoinManager
 			BitCoinController.Instance.Destroy();
 			Destroy(_instance);
 			_instance = null;
-		}
-
-		// -------------------------------------------
-		/* 
-		 * Create a new screen
-		 */
-		public void CreateNewScreenNoParameters(string _nameScreen, TypePreviousActionEnum _previousAction)
-		{
-			CreateNewScreen(_nameScreen, _previousAction, true, null);
-		}
-
-		// -------------------------------------------
-		/* 
-		 * Create a new screen
-		 */
-		public void CreateNewScreenNoParameters(string _nameScreen, bool _hidePreviousScreens, TypePreviousActionEnum _previousAction)
-		{
-			CreateNewScreen(_nameScreen, _previousAction, _hidePreviousScreens, null);
 		}
 
 		// -------------------------------------------
@@ -442,8 +426,8 @@ namespace YourBitcoinManager
 				{
 					m_hasBeenInitialized = true;
 					BitCoinController.Instance.LoadPrivateKeys(true);
-
-					CreateNewScreenNoParameters(ScreenToLoad, TypePreviousActionEnum.DESTROY_ALL_SCREENS);
+					
+					CreateNewScreen(ScreenToLoad, TypePreviousActionEnum.DESTROY_ALL_SCREENS, true);
 				}
 			}
 		}

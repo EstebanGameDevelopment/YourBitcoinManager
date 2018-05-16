@@ -44,6 +44,8 @@ namespace YourBitcoinManager
 
 			m_container.Find("Description").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.wallet.send.private.key.warning");
 
+			m_container.Find("LabelEmail").GetComponent<Text>().text = LanguageController.Instance.GetText("message.email.address");
+			
 			m_container.Find("Button_Save").GetComponent<Button>().onClick.AddListener(OnConfirmEmail);
 			m_container.Find("Button_Cancel").GetComponent<Button>().onClick.AddListener(OnCancelEmail);
 

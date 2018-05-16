@@ -40,7 +40,7 @@ namespace YourBitcoinManager
 		// ----------------------------------------------	
 		private GameObject m_content;	
 		private List<GameObject> m_gameObjects = new List<GameObject>();
-		private List<ItemMultiObjectEntry> m_data;
+		private List<ItemMultiObjects> m_data;
 		private GameObject m_slotPrefab;
 		private GameObject m_createNewPrefab;
 		private int m_currentPage = 0;
@@ -56,7 +56,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Initialize
 		 */
-		public void Initialize(int _itemsEachPage, List<ItemMultiObjectEntry> _data, GameObject _slotPrefab, GameObject _createNewPrefab = null)
+		public void Initialize(int _itemsEachPage, List<ItemMultiObjects> _data, GameObject _slotPrefab, GameObject _createNewPrefab = null)
 		{
 			m_itemsEachPage = _itemsEachPage;
 			m_data = _data;

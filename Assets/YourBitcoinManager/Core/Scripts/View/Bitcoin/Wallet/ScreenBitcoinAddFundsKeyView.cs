@@ -142,7 +142,7 @@ namespace YourBitcoinManager
 				}
 				if (subEvent == SUBEVENT_CONFIRMATION_OPEN_URL_BITCOINS_TO_PAYPAL)
 				{
-					Application.OpenURL("https://payticoins.com/");
+					Application.OpenURL("https://www.yourvrexperience.com/?page_id=4247");
 				}				
 			}
 			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)

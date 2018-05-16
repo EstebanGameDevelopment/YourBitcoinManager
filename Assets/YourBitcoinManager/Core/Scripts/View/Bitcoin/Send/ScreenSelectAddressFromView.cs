@@ -31,12 +31,20 @@ namespace YourBitcoinManager
 		private GameObject m_root;
 		private Transform m_container;
 
+		private bool m_excludeCurrentAddress = true;
+
 		// -------------------------------------------
 		/* 
 		 * Constructor
 		 */
 		public void Initialize(params object[] _list)
 		{
+			m_excludeCurrentAddress = true;
+			if (_list.Length > 0)
+			{
+				m_excludeCurrentAddress = (bool)_list[0];
+			}
+
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
 
@@ -79,7 +87,14 @@ namespace YourBitcoinManager
 		private void OnAddressList()
 		{
 			Destroy();
-			ScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, true, BitCoinController.Instance.CurrentPublicKey);
+			if (m_excludeCurrentAddress)
+			{
+				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, BitCoinController.Instance.CurrentPublicKey);
+			}
+			else
+			{
+				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false);
+			}
 		}
 
 		// -------------------------------------------
@@ -89,7 +104,14 @@ namespace YourBitcoinManager
 		private void OnYourAddresses()
 		{
 			Destroy();
-			ScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, TypePreviousActionEnum.HIDE_CURRENT_SCREEN, true, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), ScreenController.Instance.SlotDisplayKeyPrefab, null, BitCoinController.Instance.CurrentPrivateKey);
+			if (m_excludeCurrentAddress)
+			{
+				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), ScreenController.Instance.SlotDisplayKeyPrefab, null, BitCoinController.Instance.CurrentPrivateKey);
+			}
+			else
+			{
+				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), ScreenController.Instance.SlotDisplayKeyPrefab, null);
+			}
 		}
 
 		// -------------------------------------------
@@ -99,7 +121,7 @@ namespace YourBitcoinManager
 		private void OnQRCode()
 		{
 			Destroy();
-			ScreenController.Instance.CreateNewScreen(ScreenQRCodeScanView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, true);
+			ScreenController.Instance.CreateNewScreen(ScreenQRCodeScanView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false);
 		}
 
 		// -------------------------------------------

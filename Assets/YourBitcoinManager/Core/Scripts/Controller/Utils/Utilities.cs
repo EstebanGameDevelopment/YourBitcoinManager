@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace YourBitcoinManager
 {
@@ -700,5 +701,62 @@ namespace YourBitcoinManager
 				return _value;
 			}
 		}
+
+		// -------------------------------------------
+		/* 
+		 * GetFiles
+		 */
+		public static string[] GetFiles(string _path, string _searchPattern, SearchOption _searchOption)
+		{
+			string[] searchPatterns = _searchPattern.Split('|');
+			List<string> files = new List<string>();
+			foreach (string sp in searchPatterns)
+			{
+				files.AddRange(System.IO.Directory.GetFiles(_path, sp, _searchOption));
+			}
+			files.Sort();
+			return files.ToArray();
+		}
+
+		// -------------------------------------------
+		/* 
+		 * GetFiles
+		 */
+		public static FileInfo[] GetFiles(DirectoryInfo _path, string _searchPattern, SearchOption _searchOption)
+		{
+			if (_searchPattern.Length > 0)
+			{
+				string[] searchPatterns = _searchPattern.Split('|');
+				List<FileInfo> files = new List<FileInfo>();
+				foreach (string sp in searchPatterns)
+				{
+					files.AddRange(_path.GetFiles(sp, _searchOption));
+				}
+				return files.ToArray();
+			}
+			else
+			{
+				List<FileInfo> files = new List<FileInfo>();
+				files.AddRange(_path.GetFiles());
+				return files.ToArray();
+			}
+		}
+
+		// -------------------------------------------
+		/* 
+		 * LoadAllByteData
+		 */
+		public static byte[] LoadAllByteData(string _pathFile)
+		{
+			if (System.IO.File.Exists(_pathFile))
+			{
+				return System.IO.File.ReadAllBytes(_pathFile);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
 	}
 }

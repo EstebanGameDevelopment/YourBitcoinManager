@@ -21,6 +21,11 @@ namespace YourBitcoinManager
 		public const string SCREEN_NAME = "SCREEN_MAIN_MENU";
 
 		// ----------------------------------------------
+		// EVENTS
+		// ----------------------------------------------	
+		public const string EVENT_SCREENMAIN_LOAD_SCREEN_KEYS_FOR_SIGN = "EVENT_SCREENMAIN_LOAD_SCREEN_KEYS";
+
+		// ----------------------------------------------
 		// SUBS
 		// ----------------------------------------------	
 		public const string SUB_EVENT_SCREENMAIN_CONFIRMATION_EXIT_APP				= "SUB_EVENT_SCREENMAIN_CONFIRMATION_EXIT_APP";
@@ -64,6 +69,11 @@ namespace YourBitcoinManager
 
 			m_container.Find("ReceivePayment").GetComponent<Button>().onClick.AddListener(OnReceivePayment);
 			m_container.Find("ReceivePayment/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.main.menu.receive.payment");
+
+			m_container.Find("SignData").GetComponent<Button>().onClick.AddListener(OnSignOperation);
+			m_container.Find("SignData/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.main.menu.sign.data");
+
+			
 
 			m_container.Find("YourWallet").GetComponent<Button>().onClick.AddListener(OnYourWallet);
 			UpdateBitcoinWallet();
@@ -197,7 +207,17 @@ namespace YourBitcoinManager
 		public void OnRealReceivePayment()
 		{
 			ScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, TypePreviousActionEnum.HIDE_CURRENT_SCREEN, true, ScreenBitcoinReceiveView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.wallet.to.receive.payment"), ScreenController.Instance.SlotDisplayKeyPrefab, null);
-		}		
+		}
+
+
+		// -------------------------------------------
+		/* 
+		 * OnSignOperation
+		 */
+		private void OnSignOperation()
+		{
+			ScreenController.Instance.CreateNewScreen(ScreenOperationSignView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false);
+		}
 
 		// -------------------------------------------
 		/* 
@@ -307,6 +327,10 @@ namespace YourBitcoinManager
 		{
 			if (!this.gameObject.activeSelf) return;
 
+			if (_nameEvent == EVENT_SCREENMAIN_LOAD_SCREEN_KEYS_FOR_SIGN)
+			{
+				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, TypePreviousActionEnum.HIDE_CURRENT_SCREEN, true, ScreenBitcoinElementsToSignView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.wallet.to.sign.data"), ScreenController.Instance.SlotDisplayKeyPrefab, null);
+			}
 			if (_nameEvent == ScreenInformationView.EVENT_SCREENINFORMATION_CONFIRMATION_POPUP)
 			{
 				string subEvent = (string)_list[2];

@@ -193,13 +193,14 @@ namespace YourBitcoinManager
 		private string SaveTextureToFile(Texture2D _texture, string _fileName)
 		{
 			byte[] bytes = _texture.EncodeToPNG();
-			string finalPath = Application.dataPath + "/" + _fileName;
+			string finalPath = Application.persistentDataPath + "/" + _fileName;
 			FileStream file = File.Create(finalPath);
 			BinaryWriter binary = new BinaryWriter(file);
 			binary.Write(bytes);
 			file.Close();
 			return finalPath;
 		}
+
 		// -------------------------------------------
 		/* 
 		 * OnBackButton
