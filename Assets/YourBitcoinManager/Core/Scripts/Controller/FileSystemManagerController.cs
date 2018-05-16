@@ -120,7 +120,7 @@ namespace YourBitcoinManager
 				// IF SHOW DRIVES
 				if (directoryInfo.Parent != null)
 				{
-					output.Add(new ItemMultiObjects(ITEM_BACK, directoryInfo.Parent));
+					output.Insert(0, new ItemMultiObjects(ITEM_BACK, directoryInfo.Parent));
 				}
 
 				// SET LAST DIRECTORY VISITED
