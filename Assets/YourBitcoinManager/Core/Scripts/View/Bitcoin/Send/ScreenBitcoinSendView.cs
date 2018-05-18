@@ -122,6 +122,14 @@ namespace YourBitcoinManager
 			UpdateWalletButtonInfo();
 
 			// PUBLIC KEY TO SEND
+			m_saveAddress = m_container.Find("Address/SaveAddress").gameObject;
+			m_saveAddress.GetComponent<Button>().onClick.AddListener(OnSaveAddress);
+			m_saveAddress.SetActive(false);
+
+			m_validAddress = m_container.Find("Address/ValidAddress").gameObject;
+			m_validAddress.GetComponent<Button>().onClick.AddListener(OnAddressValid);
+			m_validAddress.SetActive(false);
+
 			m_container.Find("Address/Label").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.send.write.destination.address");
 			m_publicAddressInput = m_container.Find("Address/PublicKey").GetComponent<InputField>();
 			m_publicAddressInput.onValueChanged.AddListener(OnValuePublicKeyChanged);
@@ -132,13 +140,6 @@ namespace YourBitcoinManager
 #endif
 			m_publicAddressInput.text = publicKeyAddress;
 
-			m_saveAddress = m_container.Find("Address/SaveAddress").gameObject;
-			m_saveAddress.GetComponent<Button>().onClick.AddListener(OnSaveAddress);
-			m_saveAddress.SetActive(false);
-
-			m_validAddress = m_container.Find("Address/ValidAddress").gameObject;
-			m_validAddress.GetComponent<Button>().onClick.AddListener(OnAddressValid);
-			m_validAddress.SetActive(false);
 
 			// AMOUNT
 			m_container.Find("Amount/Label").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.send.amount.to.send");
