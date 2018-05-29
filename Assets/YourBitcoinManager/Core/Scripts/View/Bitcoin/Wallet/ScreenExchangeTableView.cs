@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -15,7 +16,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenExchangeTableView : ScreenBaseView, IBasicScreenView
+	public class ScreenExchangeTableView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_EXCHANGE_TABLE = "SCREEN_EXCHANGE_TABLE";
 
@@ -29,7 +30,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
@@ -68,7 +69,7 @@ namespace YourBitcoinManager
 
 			m_container.Find("Button_OK").GetComponent<Button>().onClick.AddListener(OkPressed);
 
-			BasicEventController.Instance.DispatchBasicEvent(ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_WAIT);
+			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_WAIT);
 		}
 
 		// -------------------------------------------
@@ -79,8 +80,9 @@ namespace YourBitcoinManager
 		{
 			if (base.Destroy()) return true;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
@@ -100,7 +102,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				OkPressed();
 			}

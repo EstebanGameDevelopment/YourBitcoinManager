@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -16,7 +17,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenBitcoinListAddressesView : ScreenBaseView, IBasicScreenView
+	public class ScreenBitcoinListAddressesView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_LIST_ADDRESSES";
 
@@ -39,7 +40,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_excludeAddress = "";
 			if (_list.Length > 0)
@@ -59,7 +60,7 @@ namespace YourBitcoinManager
 			m_listAddresses.GetComponent<SlotManagerView>().ClearCurrentGameObject(true);
 			m_listAddresses.GetComponent<SlotManagerView>().Initialize(4, BitCoinController.Instance.GetListDataAddresses(true, m_excludeAddress), PrefabSlotAddress, null);
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 
 			m_container.Find("Network").GetComponent<Text>().text = LanguageController.Instance.GetText("text.network") + BitCoinController.Instance.Network.ToString();
 		}
@@ -75,8 +76,9 @@ namespace YourBitcoinManager
 			if (m_listAddresses!=null) m_listAddresses.GetComponent<SlotManagerView>().Destroy();
 			m_listAddresses = null;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
@@ -104,7 +106,7 @@ namespace YourBitcoinManager
 				BitcoinEventController.Instance.DispatchBitcoinEvent(BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY, addressSelected);
 				Destroy();
 			}
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				Destroy();
 			}

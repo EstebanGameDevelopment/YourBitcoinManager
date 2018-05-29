@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -37,12 +38,12 @@ namespace YourBitcoinManager
 		// ----------------------------------------------	
 		private Transform m_container;
 		private GameObject m_selectedBackground;
-		private ItemMultiObjects m_item;
+		private ItemMultiObjectEntry m_item;
 
 		private int m_typeItem = -1;
 		private bool m_isImage = false;
 
-		public ItemMultiObjects Item
+		public ItemMultiObjectEntry Item
 		{
 			get { return m_item;  }
 		}
@@ -53,7 +54,7 @@ namespace YourBitcoinManager
 		 */
 		public void Initialize(params object[] _list)
 		{
-			m_item = (ItemMultiObjects)_list[0];
+			m_item = (ItemMultiObjectEntry)_list[0];
 
 			m_container = this.gameObject.transform;
 
@@ -77,7 +78,7 @@ namespace YourBitcoinManager
 					string filename = fullPathFilename.Substring(fullPathFilename.LastIndexOf('\\') + 1, fullPathFilename.Length - (fullPathFilename.LastIndexOf('\\') + 1));
 					m_container.Find("Description").GetComponent<Text>().text = filename;
 
-					if (FileSystemManagerController.IsFileImage(filename))
+					if (FileSystemController.IsFileImage(filename))
 					{
 						m_isImage = true;
 						m_container.Find("Icons/FILE").gameObject.SetActive(true);
@@ -92,7 +93,7 @@ namespace YourBitcoinManager
 			m_selectedBackground.SetActive(false);
 
 			m_container.Find("Delete").GetComponent<Button>().onClick.AddListener(OnDelete);
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
 		// -------------------------------------------
@@ -101,7 +102,7 @@ namespace YourBitcoinManager
 		 */
 		public bool Destroy()
 		{
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
 			GameObject.Destroy(this.gameObject);
 
 			return true;
@@ -114,7 +115,7 @@ namespace YourBitcoinManager
 		public override void OnPointerClick(PointerEventData eventData)
 		{
 			base.OnPointerClick(eventData);
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_SLOT_ELEMENT_SELECTED, m_item);
+			UIEventController.Instance.DispatchUIEvent(EVENT_SLOT_ELEMENT_SELECTED, m_item);
 		}
 
 		// -------------------------------------------
@@ -123,7 +124,7 @@ namespace YourBitcoinManager
 		 */
 		public void OnDelete()
 		{
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_SLOT_DELETED_SELECTED, m_item);			
+			UIEventController.Instance.DispatchUIEvent(EVENT_SLOT_DELETED_SELECTED, m_item);			
 		}
 
 		// -------------------------------------------
@@ -134,21 +135,21 @@ namespace YourBitcoinManager
 		{
 			if (_nameEvent == EVENT_SLOT_ELEMENT_SELECTED)
 			{
-				m_selectedBackground.SetActive(m_item == (ItemMultiObjects)_list[0]);
+				m_selectedBackground.SetActive(m_item == (ItemMultiObjectEntry)_list[0]);
 				if (m_selectedBackground.activeSelf)
 				{
 					switch (m_typeItem)
 					{
 						case TYPE_STRING:
-							ScreenController.Instance.CreateNewScreen(ScreenEnterTextView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"), (string)m_item.Objects[2]);
+							MenusScreenController.Instance.CreateNewScreen(ScreenEnterTextView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"), (string)m_item.Objects[2]);
 							break;
 
 						case TYPE_FILE:
 							if (m_isImage)
 							{
-								Texture2D loadedTexture = ImageUtilities.LoadTexture2D((string)m_item.Objects[2], 600);
+								Texture2D loadedTexture = ImageUtils.LoadTexture2D((string)m_item.Objects[2], 600);
 								byte[] dataImage = loadedTexture.EncodeToJPG(75);
-								ScreenController.Instance.CreateNewScreen(ScreenSingleImageView.SCREEN_IMAGE, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, (long)-1, dataImage);
+								MenusScreenController.Instance.CreateNewScreen(ScreenSingleImageView.SCREEN_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, (long)-1, dataImage);
 							}
 							break;
 					}

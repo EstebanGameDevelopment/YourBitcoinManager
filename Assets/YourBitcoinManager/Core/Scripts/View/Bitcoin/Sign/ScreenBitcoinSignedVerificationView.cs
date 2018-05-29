@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -14,7 +15,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenBitcoinSignedVerificationView : ScreenBaseView, IBasicScreenView
+	public class ScreenBitcoinSignedVerificationView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_VERIFICATION";
 
@@ -54,7 +55,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
@@ -83,7 +84,7 @@ namespace YourBitcoinManager
 			m_container.Find("Button_Verify").GetComponent<Button>().onClick.AddListener(OnVerifySignedData);
 			m_container.Find("Button_Verify/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.start.verification");
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 
 			m_container.Find("Network").GetComponent<Text>().text = LanguageController.Instance.GetText("text.network") + BitCoinController.Instance.Network.ToString();
@@ -97,9 +98,10 @@ namespace YourBitcoinManager
 		{
 			if (base.Destroy()) return true;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
 			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
@@ -123,9 +125,6 @@ namespace YourBitcoinManager
 				{
 					m_saveAddress.SetActive(true);
 				}
-#if ENABLE_PARTIAL_WALLET
-				m_saveAddress.SetActive(false);
-#endif
 				m_validAddress.SetActive(true);
 				m_validAddress.transform.Find("IconValid").gameObject.SetActive(m_validPublicAddressToUseForVerification);
 				m_validAddress.transform.Find("IconError").gameObject.SetActive(!m_validPublicAddressToUseForVerification);
@@ -142,7 +141,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnCheckWallet()
 		{
-			ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+			MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
 			Invoke("OnRealCheckWallet", 0.1f);
 		}
 
@@ -161,7 +160,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnSelectAddress()
 		{
-			ScreenController.Instance.CreateNewScreen(ScreenSelectAddressFromView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, false);
+			MenusScreenController.Instance.CreateNewScreen(ScreenSelectAddressFromView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, false);
 		}
 
 		// -------------------------------------------
@@ -170,7 +169,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnSaveAddress()
 		{
-			ScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.new.label.address"));
+			MenusScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.new.label.address"));
 		}
 
 		// -------------------------------------------
@@ -183,12 +182,12 @@ namespace YourBitcoinManager
 			if (m_validPublicAddressToUseForVerification)
 			{
 				description = LanguageController.Instance.GetText("screen.bitcoin.send.valid.address");
-				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.error"), description, null, "");
+				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.error"), description, null, "");
 			}
 			else
 			{
 				description = LanguageController.Instance.GetText("screen.bitcoin.send.invalid.address");
-				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.error"), description, null, "");
+				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.error"), description, null, "");
 			}
 		}
 
@@ -203,11 +202,11 @@ namespace YourBitcoinManager
 			if ((signedData.Length > 0) && m_validPublicAddressToUseForVerification)
 			{
 				Destroy();
-				BasicEventController.Instance.DelayBasicEvent(ScreenBitcoinElementsToSignView.EVENT_SCREENELEMENTSTOSIGN_START_VERIFICATION, 0.1f, m_publicAddressToSend, signedData);
+				UIEventController.Instance.DelayUIEvent(ScreenBitcoinElementsToSignView.EVENT_SCREENELEMENTSTOSIGN_START_VERIFICATION, 0.1f, m_publicAddressToSend, signedData);
 			}
 			else
 			{
-				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.error"), LanguageController.Instance.GetText("message.data.missing"), null, "");
+				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.error"), LanguageController.Instance.GetText("message.data.missing"), null, "");
 			}
 		}
 
@@ -239,7 +238,7 @@ namespace YourBitcoinManager
 			{
 				string label = (string)_list[0];				
 				BitCoinController.Instance.SaveAddresses(m_publicAddressToSend, label);
-				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.send.address.saved"), null, "");
+				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.send.address.saved"), null, "");
 				m_saveAddress.SetActive(false);
 				if (label.Length > 0)
 				{
@@ -250,7 +249,7 @@ namespace YourBitcoinManager
 
 			if (!this.gameObject.activeSelf) return;
 
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				OnBackButton();
 			}

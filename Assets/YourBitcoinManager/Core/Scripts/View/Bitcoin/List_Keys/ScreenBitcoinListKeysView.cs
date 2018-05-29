@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -16,7 +17,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenBitcoinListKeysView : ScreenBaseView, IBasicScreenView
+	public class ScreenBitcoinListKeysView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_LIST_KEYS";
 
@@ -37,7 +38,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_targetNameScreen = (string)_list[0];
 			string description = (string)_list[1];
@@ -85,12 +86,12 @@ namespace YourBitcoinManager
 				m_currencies.value = indexCurrentCurrency;
 			}			
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 
 			m_container.Find("Network").GetComponent<Text>().text = LanguageController.Instance.GetText("text.network") + BitCoinController.Instance.Network.ToString();
 
-			BasicEventController.Instance.DispatchBasicEvent(ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_WAIT);
+			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_WAIT);
 		}
 
 		// -------------------------------------------
@@ -104,9 +105,10 @@ namespace YourBitcoinManager
 			if (m_listKeys!=null) m_listKeys.GetComponent<SlotManagerView>().Destroy();
 			m_listKeys = null;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
 			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
@@ -149,7 +151,7 @@ namespace YourBitcoinManager
 			if (!m_hasBeenPressed)
 			{
 				m_hasBeenPressed = true;
-				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
 
 				Invoke("RefreshRealPressed", 0.1f);
 			}			
@@ -163,7 +165,7 @@ namespace YourBitcoinManager
 		{
 			BitCoinController.Instance.RefreshBalancePrivateKeys();
 			m_container.Find("Button_Refresh").gameObject.SetActive(false);
-			BasicEventController.Instance.DispatchBasicEvent(ScreenInformationView.EVENT_SCREENINFORMATION_FORCE_DESTRUCTION_WAIT);
+			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_WAIT);
 		}
 
 		// -------------------------------------------
@@ -172,7 +174,7 @@ namespace YourBitcoinManager
 		*/
 		public void OnRealLoadNetScreen()
 		{
-			ScreenController.Instance.CreateNewScreen(m_targetNameScreen, TypePreviousActionEnum.HIDE_CURRENT_SCREEN, true, true);
+			MenusScreenController.Instance.CreateNewScreen(m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, true);
 		}
 
 		// -------------------------------------------
@@ -218,7 +220,7 @@ namespace YourBitcoinManager
 			if (_nameEvent == AddKeyView.EVENT_ADD_KEY_SELECTED)
 			{
 				BitCoinController.Instance.CurrentPrivateKey = "";
-				ScreenController.Instance.CreateNewScreen(m_targetNameScreen, TypePreviousActionEnum.HIDE_CURRENT_SCREEN, true, true);
+				MenusScreenController.Instance.CreateNewScreen(m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, true);
 			}
 			if (_nameEvent == SlotKeyView.EVENT_SLOT_SELECTED)
 			{
@@ -227,12 +229,12 @@ namespace YourBitcoinManager
 					BitCoinController.Instance.CurrentPrivateKey = (string)_list[0];
 					if (m_targetNameScreen == ScreenBitcoinPrivateKeyView.SCREEN_NAME)
 					{
-						ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+						MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
 						Invoke("OnRealLoadNetScreen", 0.1f);
 					}
 					else
 					{
-						ScreenController.Instance.CreateNewScreen(m_targetNameScreen, TypePreviousActionEnum.HIDE_CURRENT_SCREEN, true);
+						MenusScreenController.Instance.CreateNewScreen(m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true);
 					}
 				}
 				else
@@ -241,7 +243,7 @@ namespace YourBitcoinManager
 					Destroy();
 				}
 			}
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				Destroy();
 			}

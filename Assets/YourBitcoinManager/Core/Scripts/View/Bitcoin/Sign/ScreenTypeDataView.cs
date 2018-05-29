@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -16,7 +17,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenTypeDataView : ScreenBaseView, IBasicScreenView
+	public class ScreenTypeDataView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_TYPE_DATA";
 
@@ -30,7 +31,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
@@ -42,7 +43,7 @@ namespace YourBitcoinManager
 			m_container.Find("Button_AddFile").GetComponent<Button>().onClick.AddListener(OnAddTypeFile);
 			m_container.Find("Button_AddFile/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.sign.type.data.add.file");
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
 		// -------------------------------------------
@@ -53,8 +54,9 @@ namespace YourBitcoinManager
 		{
 			if (base.Destroy()) return true;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
@@ -66,7 +68,7 @@ namespace YourBitcoinManager
 		private void OnAddTypeText()
 		{			
 			Destroy();
-			ScreenController.Instance.CreateNewScreen(ScreenEnterTextView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"));
+			MenusScreenController.Instance.CreateNewScreen(ScreenEnterTextView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"));
 		}
 
 		// -------------------------------------------
@@ -76,7 +78,7 @@ namespace YourBitcoinManager
 		private void OnAddTypeFile()
 		{
 			Destroy();
-			ScreenController.Instance.CreateNewScreen(ScreenFileElementNavitagorView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false);
+			MenusScreenController.Instance.CreateNewScreen(ScreenFileElementNavitagorView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
 		}
 
 		// -------------------------------------------
@@ -85,7 +87,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				Destroy();
 			}

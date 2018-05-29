@@ -7,6 +7,7 @@ using NBitcoin;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -16,7 +17,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenBitcoinReceiveView : ScreenBaseView, IBasicScreenView
+	public class ScreenBitcoinReceiveView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_RECEIVE";
 
@@ -42,7 +43,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_publicKey = BitCoinController.Instance.CurrentPublicKey;
 
@@ -86,7 +87,7 @@ namespace YourBitcoinManager
 			m_container.Find("SendQRCode").GetComponent<Button>().onClick.AddListener(OnSendQRCode);
 			m_container.Find("SendQRCode/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.bitcoin.send.qr.code.address");
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 
 			m_container.Find("Network").GetComponent<Text>().text = LanguageController.Instance.GetText("text.network") + BitCoinController.Instance.Network.ToString();
 
@@ -109,8 +110,9 @@ namespace YourBitcoinManager
 		{
 			if (base.Destroy()) return true;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
@@ -219,7 +221,7 @@ namespace YourBitcoinManager
 #if ENABLE_QRCODE
 			m_sendQRCodeImageByEmail = false;
 #endif
-			ScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
+			MenusScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
 		}
 
 		// -------------------------------------------
@@ -231,7 +233,7 @@ namespace YourBitcoinManager
 #if ENABLE_QRCODE
 			m_sendQRCodeImageByEmail = true;
 #endif
-			ScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
+			MenusScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
 		}
 
 		// -------------------------------------------
@@ -257,7 +259,7 @@ namespace YourBitcoinManager
 				Application.OpenURL("mailto:" + (string)_list[0] + "?subject=" + LanguageController.Instance.GetText("message.public.address") + "&body=" + LanguageController.Instance.GetText("screen.bitcoin.message.email.send.public.key") + ":" + m_publicKey);
 #endif
 			}
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				OnBackButton();
 			}

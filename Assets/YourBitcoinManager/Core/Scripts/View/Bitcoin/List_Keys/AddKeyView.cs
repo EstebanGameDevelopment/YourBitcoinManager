@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -58,7 +59,7 @@ namespace YourBitcoinManager
 		{
 			base.OnPointerClick(eventData);
 
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_ADD_KEY_SELECTED);
+			UIEventController.Instance.DispatchUIEvent(EVENT_ADD_KEY_SELECTED);
 
 		}
 

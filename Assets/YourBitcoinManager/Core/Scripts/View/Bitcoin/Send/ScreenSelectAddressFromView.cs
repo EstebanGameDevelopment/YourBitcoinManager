@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -17,7 +18,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenSelectAddressFromView : ScreenBaseView, IBasicScreenView
+	public class ScreenSelectAddressFromView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_SELECT_ADDRESS";
 
@@ -37,7 +38,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_excludeCurrentAddress = true;
 			if (_list.Length > 0)
@@ -63,7 +64,8 @@ namespace YourBitcoinManager
 			m_container.Find("QRCode").gameObject.SetActive(false);
 #endif
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
+			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 		}
 
 		// -------------------------------------------
@@ -74,8 +76,10 @@ namespace YourBitcoinManager
 		{
 			if (base.Destroy()) return true;
 			
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
@@ -89,11 +93,11 @@ namespace YourBitcoinManager
 			Destroy();
 			if (m_excludeCurrentAddress)
 			{
-				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, BitCoinController.Instance.CurrentPublicKey);
+				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, BitCoinController.Instance.CurrentPublicKey);
 			}
 			else
 			{
-				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false);
+				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
 			}
 		}
 
@@ -106,11 +110,11 @@ namespace YourBitcoinManager
 			Destroy();
 			if (m_excludeCurrentAddress)
 			{
-				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), ScreenController.Instance.SlotDisplayKeyPrefab, null, BitCoinController.Instance.CurrentPrivateKey);
+				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null, BitCoinController.Instance.CurrentPrivateKey);
 			}
 			else
 			{
-				ScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), ScreenController.Instance.SlotDisplayKeyPrefab, null);
+				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null);
 			}
 		}
 
@@ -121,7 +125,7 @@ namespace YourBitcoinManager
 		private void OnQRCode()
 		{
 			Destroy();
-			ScreenController.Instance.CreateNewScreen(ScreenQRCodeScanView.SCREEN_NAME, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, false);
+			MenusScreenController.Instance.CreateNewScreen(ScreenQRCodeScanView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
 		}
 
 		// -------------------------------------------
@@ -135,11 +139,23 @@ namespace YourBitcoinManager
 
 		// -------------------------------------------
 		/* 
+		 * OnBitcoinEvent
+		 */
+		private void OnBitcoinEvent(string _nameEvent, params object[] _list)
+		{
+			if (_nameEvent == BitCoinController.EVENT_BITCOINCONTROLLER_SELECTED_PUBLIC_KEY)
+			{
+				Destroy();
+			}
+		}
+
+		// -------------------------------------------
+		/* 
 		 * OnBasicEvent
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				OnCancel();
 			}

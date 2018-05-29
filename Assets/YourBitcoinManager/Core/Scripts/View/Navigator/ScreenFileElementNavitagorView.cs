@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -17,7 +18,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenFileElementNavitagorView : ScreenBaseView, IBasicScreenView
+	public class ScreenFileElementNavitagorView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_FILEELEMENTS_NAVIGATOR";
 
@@ -49,7 +50,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
@@ -61,9 +62,9 @@ namespace YourBitcoinManager
 			m_container.Find("Button_Accept/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.navigator.select.a.file");
 
 			m_listItems = m_container.Find("ListItems");
-			UpdateListItems(FileSystemManagerController.Instance.PathLastSearch);
+			UpdateListItems(FileSystemController.Instance.PathLastSearch);
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			BasicSystemEventController.Instance.BasicSystemEvent += new BasicSystemEventHandler(OnBasicEvent);
 		}
 
 		// -------------------------------------------
@@ -74,10 +75,10 @@ namespace YourBitcoinManager
 		{
 			if (base.Destroy()) return true;
 			
-			if (m_listItems!=null) m_listItems.GetComponent<FileElementManagerView>().Destroy();
+			if (m_listItems!=null) m_listItems.GetComponent<FileManagerView>().Destroy();
 			m_listItems = null;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			BasicSystemEventController.Instance.BasicSystemEvent -= OnBasicEvent;
 			GameObject.Destroy(this.gameObject);
 
 			return false;
@@ -89,9 +90,9 @@ namespace YourBitcoinManager
 		 */
 		private void UpdateListItems(DirectoryInfo _path)
 		{
-			m_listItems.GetComponent<FileElementManagerView>().ClearCurrentGameObject(true);
-			List<ItemMultiObjects> items = FileSystemManagerController.Instance.GetFileList(_path, "");
-			m_listItems.GetComponent<FileElementManagerView>().Initialize(15, items, FileElementSlot);
+			m_listItems.GetComponent<FileManagerView>().ClearCurrentGameObject(true);
+			List<ItemMultiObjectEntry> items = FileSystemController.Instance.GetFileList(_path, "");
+			m_listItems.GetComponent<FileManagerView>().Initialize(15, items, FileElementSlot);
 		}
 
 		// -------------------------------------------
@@ -109,7 +110,7 @@ namespace YourBitcoinManager
 		*/
 		private void AcceptPressed()
 		{
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_SCREENSYSTEMNAVIGATOR_FINAL_SELECTION, true, m_currentFileSelection);
+			UIEventController.Instance.DispatchUIEvent(EVENT_SCREENSYSTEMNAVIGATOR_FINAL_SELECTION, true, m_currentFileSelection);
 			Destroy();
 		}
 
@@ -119,17 +120,23 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == FileElementView.EVENT_FILE_ELEMENT_SELECTED)
+			if (_nameEvent == FileItemView.EVENT_FILE_ITEM_SELECTED)
 			{
-				ItemMultiObjects item = (ItemMultiObjects)_list[0];
+				ItemMultiObjectEntry item = (ItemMultiObjectEntry)_list[0];
 				m_currentFileSelection = ((FileInfo)item.Objects[1]).FullName;
+				if (FileSystemController.IsFileImage(m_currentFileSelection))
+				{
+					Texture2D loadedTexture = ImageUtils.LoadTexture2D(m_currentFileSelection, 600);
+					byte[] dataImage = loadedTexture.EncodeToJPG(75);
+					MenusScreenController.Instance.CreateNewScreen(ScreenSingleImageView.SCREEN_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, (long)-1, dataImage);
+				}
 			}
-			if (_nameEvent == FileElementView.EVENT_FILE_DIRECTORY_SELECTED)
+			if (_nameEvent == FileItemView.EVENT_FILE_FOLDER_SELECTED)
 			{
-				ItemMultiObjects item = (ItemMultiObjects)_list[0];
+				ItemMultiObjectEntry item = (ItemMultiObjectEntry)_list[0];
 				UpdateListItems((DirectoryInfo)item.Objects[1]);
 			}
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				Destroy();
 			}

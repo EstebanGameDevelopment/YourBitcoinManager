@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -17,7 +18,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenOperationSignView : ScreenBaseView, IBasicScreenView
+	public class ScreenOperationSignView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_SIGN_OPERATION";
 
@@ -31,7 +32,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
@@ -45,7 +46,7 @@ namespace YourBitcoinManager
 			m_container.Find("Button_Cancel").GetComponent<Button>().onClick.AddListener(OnCancel);
 			m_container.Find("Button_Cancel/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("message.cancel");
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 		}
 
 		// -------------------------------------------
@@ -56,8 +57,9 @@ namespace YourBitcoinManager
 		{
 			if (base.Destroy()) return true;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
@@ -80,14 +82,14 @@ namespace YourBitcoinManager
 		{
 			if (BitCoinController.Instance.PrivateKeys.Count > 0)
 			{
-				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
-				BasicEventController.Instance.DelayBasicEvent(ScreenMainMenuView.EVENT_SCREENMAIN_LOAD_SCREEN_KEYS_FOR_SIGN, 0.1f);
+				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+				UIEventController.Instance.DelayUIEvent(ScreenMainMenuView.EVENT_SCREENMAIN_LOAD_SCREEN_KEYS_FOR_SIGN, 0.1f);
 			}
 			else
 			{
 				string warning = LanguageController.Instance.GetText("message.warning");
 				string description = LanguageController.Instance.GetText("message.you.dont.have.private.key");
-				ScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, TypePreviousActionEnum.KEEP_CURRENT_SCREEN, warning, description, null, "");
+				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
 			}
 		}
 
@@ -98,7 +100,7 @@ namespace YourBitcoinManager
 		private void OnVerifyAuthenticity()
 		{
 			Destroy();
-			ScreenController.Instance.CreateNewScreen(ScreenBitcoinElementsToSignView.SCREEN_NAME, TypePreviousActionEnum.HIDE_CURRENT_SCREEN, true, false);
+			MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinElementsToSignView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, false);
 		}
 
 		// -------------------------------------------
@@ -116,7 +118,7 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				Destroy();
 			}

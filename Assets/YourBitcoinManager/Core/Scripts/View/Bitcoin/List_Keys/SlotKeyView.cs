@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -40,7 +41,7 @@ namespace YourBitcoinManager
 		 */
 		public void Initialize(params object[] _list)
 		{
-			ItemMultiObjects item = (ItemMultiObjects)_list[0];
+			ItemMultiObjectEntry item = (ItemMultiObjectEntry)_list[0];
 
 			m_container = this.gameObject.transform;
 			
@@ -112,7 +113,7 @@ namespace YourBitcoinManager
 		public override void OnPointerClick(PointerEventData eventData)
 		{
 			base.OnPointerClick(eventData);
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_SLOT_SELECTED, m_key);
+			UIEventController.Instance.DispatchUIEvent(EVENT_SLOT_SELECTED, m_key);
 		}
 
 		// -------------------------------------------

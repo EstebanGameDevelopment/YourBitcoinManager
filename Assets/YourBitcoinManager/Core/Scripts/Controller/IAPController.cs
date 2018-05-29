@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 using UnityEngine.Purchasing;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -74,7 +75,7 @@ namespace YourBitcoinManager
 				}
 				m_iapHasBeenInitialized = true;
 
-				BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+				UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 
 				var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
@@ -103,7 +104,7 @@ namespace YourBitcoinManager
 #if !UNITY_EDITOR
 			BuyProductID(IAP_ACCESS_MAIN_NETWORK);
 #else
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_IAP_SUCCESS_PURCHASE, true);
+			UIEventController.Instance.DispatchUIEvent(EVENT_IAP_SUCCESS_PURCHASE, true);
 #endif
 		}
 
@@ -113,7 +114,7 @@ namespace YourBitcoinManager
 		*/
 		public void Destroy()
 		{
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
 			Destroy(_instance.gameObject);
 			_instance = null;
 		}
@@ -211,7 +212,7 @@ namespace YourBitcoinManager
 #if DEBUG_MODE_DISPLAY_LOG
 			Debug.LogError(string.Format("ProcessPurchase: SUCCESS. Product: '{0}'", args.purchasedProduct.definition.id));
 #endif
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_IAP_RESPONSE, true, args.purchasedProduct.definition.id);
+			UIEventController.Instance.DispatchUIEvent(EVENT_IAP_RESPONSE, true, args.purchasedProduct.definition.id);
 			return PurchaseProcessingResult.Complete;
 		}
 
@@ -225,7 +226,7 @@ namespace YourBitcoinManager
 #if DEBUG_MODE_DISPLAY_LOG
 			Debug.LogError(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 #endif
-			BasicEventController.Instance.DispatchBasicEvent(EVENT_IAP_RESPONSE, false, product.definition.id);
+			UIEventController.Instance.DispatchUIEvent(EVENT_IAP_RESPONSE, false, product.definition.id);
 		}
 
 		// -------------------------------------------
@@ -245,11 +246,11 @@ namespace YourBitcoinManager
 				{
 					if (success)
 					{
-						BasicEventController.Instance.DispatchBasicEvent(EVENT_IAP_SUCCESS_PURCHASE, true);
+						UIEventController.Instance.DispatchUIEvent(EVENT_IAP_SUCCESS_PURCHASE, true);
 					}
 					else
 					{
-						BasicEventController.Instance.DispatchBasicEvent(EVENT_IAP_SUCCESS_PURCHASE, false);
+						UIEventController.Instance.DispatchUIEvent(EVENT_IAP_SUCCESS_PURCHASE, false);
 					}
 				}
 			}

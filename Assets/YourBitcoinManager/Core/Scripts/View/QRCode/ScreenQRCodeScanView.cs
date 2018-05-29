@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using YourBitcoinController;
+using YourCommonTools;
 
 namespace YourBitcoinManager
 {
@@ -16,7 +17,7 @@ namespace YourBitcoinManager
 	 * 
 	 * @author Esteban Gallardo
 	 */
-	public class ScreenQRCodeScanView : ScreenBaseView, IBasicScreenView
+	public class ScreenQRCodeScanView : ScreenBaseView, IBasicView
 	{
 		public const string SCREEN_NAME = "SCREEN_SCANQRCODE";
 
@@ -36,7 +37,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
@@ -54,7 +55,7 @@ namespace YourBitcoinManager
 
 			m_container.Find("Exit").GetComponent<Button>().onClick.AddListener(ExitPressed);
 
-			BasicEventController.Instance.BasicEvent += new BasicEventHandler(OnBasicEvent);
+			UIEventController.Instance.UIEvent += new UIEventHandler(OnBasicEvent);
 
 #if ENABLE_QRCODE
 			m_qrController = GameObject.FindObjectOfType<QRCodeDecodeController>();
@@ -70,12 +71,14 @@ namespace YourBitcoinManager
 		{
 			if (base.Destroy()) return true;
 
-			BasicEventController.Instance.BasicEvent -= OnBasicEvent;
+			UIEventController.Instance.UIEvent -= OnBasicEvent;
 #if ENABLE_QRCODE
 			m_qrController.onQRScanFinished -= QRScanFinished;
 			m_qrController = null;
 #endif
-			BasicEventController.Instance.DispatchBasicEvent(ScreenController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
+			GameObject.Destroy(this.gameObject);
+
 			return false;
 		}
 
@@ -116,7 +119,7 @@ namespace YourBitcoinManager
 		{
 			if (!this.gameObject.activeSelf) return;
 
-			if (_nameEvent == ScreenController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
+			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{
 				ExitPressed();
 			}
