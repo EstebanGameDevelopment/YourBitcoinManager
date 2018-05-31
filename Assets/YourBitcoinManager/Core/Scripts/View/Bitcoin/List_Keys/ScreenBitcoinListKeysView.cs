@@ -108,11 +108,10 @@ namespace YourBitcoinManager
 			UIEventController.Instance.UIEvent -= OnBasicEvent;
 			BitcoinEventController.Instance.BitcoinEvent -= OnBitcoinEvent;
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
-			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}
-
+		
 		// -------------------------------------------
 		/* 
 		 * OnCurrencyChanged
@@ -174,6 +173,7 @@ namespace YourBitcoinManager
 		*/
 		public void OnRealLoadNetScreen()
 		{
+			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
 			MenusScreenController.Instance.CreateNewScreen(m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, true);
 		}
 

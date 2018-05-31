@@ -179,6 +179,7 @@ namespace YourBitcoinManager
 		 */
 		public void OnRealSendPayment()
 		{
+			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
 			MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenBitcoinSendView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.wallet.used.to.pay"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null);
 		}
 
@@ -207,6 +208,7 @@ namespace YourBitcoinManager
 		 */
 		public void OnRealReceivePayment()
 		{
+			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
 			MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenBitcoinReceiveView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.wallet.to.receive.payment"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null);
 		}
 
@@ -236,6 +238,7 @@ namespace YourBitcoinManager
 		 */
 		public void OnRealYourWallet()
 		{
+			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
 			MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenBitcoinPrivateKeyView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.or.add.key"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, MenusScreenController.MainInstance.SlotAddKeyPrefab);
 		}
 
@@ -330,6 +333,7 @@ namespace YourBitcoinManager
 
 			if (_nameEvent == EVENT_SCREENMAIN_LOAD_SCREEN_KEYS_FOR_SIGN)
 			{
+				UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
 				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenBitcoinElementsToSignView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.wallet.to.sign.data"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null);
 			}
 			if (_nameEvent == ScreenController.EVENT_CONFIRMATION_POPUP)

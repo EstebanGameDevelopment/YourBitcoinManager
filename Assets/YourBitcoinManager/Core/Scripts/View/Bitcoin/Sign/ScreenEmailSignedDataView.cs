@@ -71,7 +71,6 @@ namespace YourBitcoinManager
 			
 			UIEventController.Instance.UIEvent -= OnBasicEvent;
 			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
-			GameObject.Destroy(this.gameObject);
 
 			return false;
 		}

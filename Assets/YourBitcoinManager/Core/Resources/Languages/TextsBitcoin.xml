@@ -129,6 +129,16 @@
   </text>
 
   <!-- BITCOIN WALLET -->
+  <text id="screen.bitcoin.your.private.address">
+    <en>Your Private Bitcoin Address</en>
+    <es>Tu dirección privada Bitcoin</es>
+  </text>
+  
+  <text id="screen.bitcoin.wallet.once.you.set.up.done">
+    <en>Do you want to save this address?</en>
+    <es>Desea guardar esta dirección?</es>
+  </text>
+
   <text id="screen.bitcoin.wallet.send.private.key.warning">
     <en>If you press confirm button we will call your email program, so you can send your private key so you can use it in other wallets.++ Remember that the private key should never be shared!!!</en>
     <es>If you press confirm button we will call your email program, so you can send your private key so you can use it in other wallets.++ Remember that the private key should never be shared!!!</es>
@@ -716,7 +726,7 @@
     <en>No data or documents to sign</en>
     <es>No hay datos o documentos para firmar</es>
   </text>
-
+  
   <!-- BITCOIN LIST ADDRESSES -->
   <text id="screen.bitcoin.address.list">
     <en>Available Addresses:</en>

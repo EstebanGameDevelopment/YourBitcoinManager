@@ -77,8 +77,7 @@ namespace YourBitcoinManager
 			m_listAddresses = null;
 
 			UIEventController.Instance.UIEvent -= OnBasicEvent;
-			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);
-			GameObject.Destroy(this.gameObject);
+			UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_DESTROY_SCREEN, this.gameObject);			
 
 			return false;
 		}
