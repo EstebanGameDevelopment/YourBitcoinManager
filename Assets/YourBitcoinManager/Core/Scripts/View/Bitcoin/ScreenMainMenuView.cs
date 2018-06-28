@@ -282,7 +282,7 @@ namespace YourBitcoinManager
 			m_blockedAccessToChange = true;
 
 			#if !ENABLE_IAP
-				m_accessToMainBitcoinNetwork = true;
+				m_accessToMainBitcoinNetwork = true;            
 			#endif
 
 			if (!m_accessToMainBitcoinNetwork)
@@ -325,6 +325,19 @@ namespace YourBitcoinManager
 
 		// -------------------------------------------
 		/* 
+		* UnlockAccessMainBitcoinNetwork
+		*/
+		public void UnlockAccessMainBitcoinNetwork()
+		{
+#if ENABLE_IAP
+			IAPController.Instance.BuyProductID(MenusScreenController.IAP_ACCESS_MAIN_NETWORK);
+#else
+			UIEventController.Instance.DispatchUIEvent(IAPController.EVENT_IAP_CONFIRMATION, true);
+#endif
+		}	
+		
+		// -------------------------------------------
+		/* 
 		 * OnBasicEvent
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
@@ -354,12 +367,12 @@ namespace YourBitcoinManager
 						// WAIT MESSAGE
 						MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
 
-						// BUY IAP
+                        // BUY IAP
 #if ENABLE_IAP
-						IAPController.Instance.UnlockAccessMainBitcoinNetwork();
+						UnlockAccessMainBitcoinNetwork();
 #endif
-					}
-					else
+                    }
+                    else
 					{
 						m_networkBitcoin.value = m_indexCurrentNetwork;
 						m_blockedAccessToChange = false;
@@ -389,7 +402,7 @@ namespace YourBitcoinManager
 				}
 			}
 #if ENABLE_IAP
-			if (_nameEvent == IAPController.EVENT_IAP_SUCCESS_PURCHASE)
+			if (_nameEvent == IAPController.EVENT_IAP_CONFIRMATION)
 			{
 				UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
 				if ((bool)_list[0])

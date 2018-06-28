@@ -241,7 +241,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Esteban/Desktop/GitHub/YourBitcoinManager/yourbitcoinmanager.keystore
+  AndroidKeystoreName: D:/YourVRExperience/YourBitcoinManager/yourbitcoinmanager.keystore
   AndroidKeyaliasName: yourbitcoinmanager
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
@@ -465,6 +465,7 @@ PlayerSettings:
   switchAllowsRuntimeAddOnContentInstall: 0
   switchDataLossConfirmation: 0
   switchSupportedNpadStyles: 3
+  switchNativeFsCacheSize: 32
   switchSocketConfigEnabled: 0
   switchTcpInitialSendBufferSize: 32
   switchTcpInitialReceiveBufferSize: 64
@@ -607,7 +608,7 @@ PlayerSettings:
   webGLCompressionFormat: 1
   webGLLinkerTarget: 0
   scriptingDefineSymbols:
-    1: DEBUG_MODE_DISPLAY_LOG
+    1: DEBUG_MODE_DISPLAY_LOG;ENABLE_FULL_WALLET;ENABLE_IAP
     7: ENABLE_QRCODE;ENABLE_IAP;ENABLE_FULL_WALLET
   platformArchitecture: {}
   scriptingBackend: {}

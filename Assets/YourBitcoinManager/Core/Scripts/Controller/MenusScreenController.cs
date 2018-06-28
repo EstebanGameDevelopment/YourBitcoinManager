@@ -27,6 +27,8 @@ namespace YourBitcoinManager
 	 */
 	public class MenusScreenController : ScreenBitcoinController
 	{
+		public const string IAP_ACCESS_MAIN_NETWORK = "yourbitcoinmanager.access.main.bitcoin.network";
+		
 		// ----------------------------------------------
 		// SINGLETON
 		// ----------------------------------------------	
@@ -51,6 +53,11 @@ namespace YourBitcoinManager
 		public GameObject SlotAddKeyPrefab;
 		public Sprite SignedDataOK;
 		public Sprite SignedDataFailed;
+
+		// ----------------------------------------------
+		// PRIVATE MEMBERS
+		// ----------------------------------------------	
+		private bool m_hasIAPBeenInitialized = false;
 
 		// -------------------------------------------
 		/* 
@@ -84,6 +91,10 @@ namespace YourBitcoinManager
         Screen.SetResolution(550, 900, false);
 #endif
 
+#if !ENABLE_IAP			
+			m_hasIAPBeenInitialized = true;
+#endif
+
 			UIEventController.Instance.UIEvent += new UIEventHandler(OnUIEvent);
 			BitcoinEventController.Instance.BitcoinEvent += new BitcoinEventHandler(OnBitcoinEvent);
 
@@ -113,7 +124,7 @@ namespace YourBitcoinManager
 #if ENABLE_IAP
 			if (GameObject.FindObjectOfType<IAPController>()!=null)
 			{
-				IAPController.Instance.Init();
+				IAPController.Instance.Init(IAP_ACCESS_MAIN_NETWORK);
 			}			
 #endif
 		}
@@ -150,10 +161,21 @@ namespace YourBitcoinManager
 				if (!m_hasBeenInitialized)
 				{
 					m_hasBeenInitialized = true;
-					BitCoinController.Instance.LoadPrivateKeys(true);
-					
-					CreateNewScreen(ScreenToLoad, UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, true);
+					BitCoinController.Instance.LoadPrivateKeys(true);					
 				}
+				LoadMainScreen();
+			}
+		}
+
+		// -------------------------------------------
+		/* 
+		 * Will load the main screen when all the initial data has been synchronized
+		 */
+		private void LoadMainScreen()
+		{			
+			if (m_hasBeenInitialized && m_hasIAPBeenInitialized)
+			{				
+				CreateNewScreen(ScreenToLoad, UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, true);
 			}
 		}
 
@@ -164,6 +186,14 @@ namespace YourBitcoinManager
 		protected override void OnUIEvent(string _nameEvent, params object[] _list)
 		{
 			base.OnUIEvent(_nameEvent, _list);
+
+#if ENABLE_IAP			
+			if (_nameEvent == IAPController.EVENT_IAP_INITIALIZED)
+			{
+				m_hasIAPBeenInitialized = true;
+				LoadMainScreen();
+			}
+#endif			
 		}
 	}
 }
