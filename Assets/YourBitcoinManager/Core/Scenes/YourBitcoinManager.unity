@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b14b0d9af02e9147b25a6788d1ad160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMode: 1
+  DebugMode: 0
   MaterialDrawOnTop: {fileID: 0}
   ScreensPrefabs:
   - {fileID: 1189355751075940, guid: a64670e476225c349971ebd184e8b520, type: 2}

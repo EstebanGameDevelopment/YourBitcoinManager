@@ -117,7 +117,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.94
+  bundleVersion: 0.95
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -153,7 +153,7 @@ PlayerSettings:
     Android: com.yourvrexperience.yourbitcoinmanager
     Standalone: com.yourvrexperience.yourbitcoinmanager
   buildNumber: {}
-  AndroidBundleVersionCode: 9
+  AndroidBundleVersionCode: 10
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -609,7 +609,7 @@ PlayerSettings:
   webGLLinkerTarget: 0
   scriptingDefineSymbols:
     1: DEBUG_MODE_DISPLAY_LOG;ENABLE_FULL_WALLET;ENABLE_IAP
-    7: ENABLE_QRCODE;ENABLE_IAP;ENABLE_FULL_WALLET
+    7: ENABLE_IAP;ENABLE_FULL_WALLET;ENABLE_QRCODE
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
