@@ -294,7 +294,7 @@ namespace YourBitcoinManager
 					string description = LanguageController.Instance.GetText("screen.main.access.main.network.pay.iap");
 					string okButton = LanguageController.Instance.GetText("screen.main.access.main.unlock.iap");
 					string cancelButton = LanguageController.Instance.GetText("message.cancel");
-					MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_UNLOCK_BITCOIN, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENMAIN_CONFIRMATION_UNLOCK_BITCOIN_NETWORK, okButton, cancelButton);
+					MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_UNLOCK_CURRENCY, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENMAIN_CONFIRMATION_UNLOCK_BITCOIN_NETWORK, okButton, cancelButton);
 				}
 			}
 			else

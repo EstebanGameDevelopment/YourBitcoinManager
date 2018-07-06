@@ -62,7 +62,8 @@ namespace YourBitcoinManager
 			m_container.Find("Button_Refresh").GetComponent<Button>().onClick.AddListener(RefreshPressed);
 			
 			m_container.Find("ListItems/Title").GetComponent<Text>().text = description;
-			m_listKeys = m_container.Find("ListItems");
+            m_container.Find("ListItems/LoadingText").GetComponent<Text>().text = LanguageController.Instance.GetText("message.loading");
+            m_listKeys = m_container.Find("ListItems");
 			UpdateListItems();
 
 			// CURRENCIES
@@ -130,13 +131,17 @@ namespace YourBitcoinManager
 		{
 			m_listKeys.GetComponent<SlotManagerView>().ClearCurrentGameObject(true);			
 			m_listKeys.GetComponent<SlotManagerView>().Initialize(4, BitCoinController.Instance.GetListPrivateKeys(m_excludeAddress), m_prefabSlotKey, m_prefabSlotNew);
-		}
 
-		// -------------------------------------------
-		/* 
+            m_container.Find("ListItems/LoadingText").GetComponent<Text>().text = "";
+            m_container.Find("ListItems/LoadingText").gameObject.SetActive(false);
+            m_container.Find("ListItems/LoadingIcon").gameObject.SetActive(false);
+        }
+
+        // -------------------------------------------
+        /* 
 		* BackPressed
 		*/
-		private void BackPressed()
+        private void BackPressed()
 		{
 			Destroy();
 		}
