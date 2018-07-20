@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224884252267408114}
-  - component: {fileID: 114109900135707116}
+  - component: {fileID: 114073483151195896}
   m_Layer: 5
   m_Name: ListItems
   m_TagString: Untagged
@@ -286,9 +286,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectorGraphic: {fileID: 0}
-  FileElementSlot: {fileID: 1030410093296958, guid: ec9591c3755469341b6d9aef07a532e9,
+  FileElementSlot: {fileID: 1030410093296958, guid: cf6f2bcf84ebc4b4fb6450e6e2f4bf8a,
     type: 2}
---- !u!114 &114109900135707116
+--- !u!114 &114073483151195896
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1784977950053420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ec4ebf5eae4ed14482d3017dfdc9e84, type: 3}
+  m_Script: {fileID: 11500000, guid: 446148e5af3ebd745aac53f093f484fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonNext: {fileID: 1631735138219922}
@@ -1092,7 +1092,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000006198883, y: 0.000030517578}
+  m_AnchoredPosition: {x: -0.000006198883, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224288027434229040

@@ -54,7 +54,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224961165153305646}
-  - component: {fileID: 114830964879674462}
+  - component: {fileID: 114636744735707738}
   m_Layer: 5
   m_Name: ListItems
   m_TagString: Untagged
@@ -606,6 +606,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114636744735707738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146651442602112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82cb6cd06d9921a4db7d76c34d9c47dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonNext: {fileID: 1552231454403782}
+  ButtonPrevious: {fileID: 1382554674379926}
+  LoadingIcon: {fileID: 1774744860464284}
+  LoadingText: {fileID: 1203602442947004}
 --- !u!114 &114720787877664532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -772,21 +787,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114830964879674462
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1146651442602112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab350a205ebeb0b4da38e0a5ed829ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ButtonNext: {fileID: 1552231454403782}
-  ButtonPrevious: {fileID: 1382554674379926}
-  LoadingIcon: {fileID: 1774744860464284}
-  LoadingText: {fileID: 1203602442947004}
 --- !u!114 &114879844306396456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1143,7 +1143,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000006198883, y: -0.000030517578}
+  m_AnchoredPosition: {x: -0.000006198883, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224611442613381690

@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224651131041323376}
-  - component: {fileID: 114621433298277564}
+  - component: {fileID: 114039829308964382}
   m_Layer: 5
   m_Name: ListItems
   m_TagString: Untagged
@@ -627,6 +627,21 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114039829308964382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1067384690817994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82cb6cd06d9921a4db7d76c34d9c47dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonNext: {fileID: 1297049075242818}
+  ButtonPrevious: {fileID: 1642281737534168}
+  LoadingIcon: {fileID: 1239818845089046}
+  LoadingText: {fileID: 1338192567437546}
 --- !u!114 &114041825534834118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1432,21 +1447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectorGraphic: {fileID: 0}
---- !u!114 &114621433298277564
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1067384690817994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab350a205ebeb0b4da38e0a5ed829ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ButtonNext: {fileID: 1297049075242818}
-  ButtonPrevious: {fileID: 1642281737534168}
-  LoadingIcon: {fileID: 1239818845089046}
-  LoadingText: {fileID: 1338192567437546}
 --- !u!114 &114639394738906448
 MonoBehaviour:
   m_ObjectHideFlags: 1

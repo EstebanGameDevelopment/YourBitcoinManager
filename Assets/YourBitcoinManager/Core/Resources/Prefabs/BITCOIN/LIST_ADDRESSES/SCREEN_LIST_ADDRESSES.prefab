@@ -282,7 +282,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224924824539194218}
-  - component: {fileID: 114680522435139994}
+  - component: {fileID: 114804819307911026}
   m_Layer: 5
   m_Name: ListItems
   m_TagString: Untagged
@@ -774,21 +774,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114680522435139994
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1971922323933012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab350a205ebeb0b4da38e0a5ed829ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ButtonNext: {fileID: 1028461069115572}
-  ButtonPrevious: {fileID: 1281673472579276}
-  LoadingIcon: {fileID: 1712886993917504}
-  LoadingText: {fileID: 1111091779113250}
 --- !u!114 &114801453263919318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -822,6 +807,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Select the account to operate
+--- !u!114 &114804819307911026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1971922323933012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82cb6cd06d9921a4db7d76c34d9c47dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonNext: {fileID: 1028461069115572}
+  ButtonPrevious: {fileID: 1281673472579276}
+  LoadingIcon: {fileID: 1712886993917504}
+  LoadingText: {fileID: 1111091779113250}
 --- !u!114 &114841388258657334
 MonoBehaviour:
   m_ObjectHideFlags: 1
