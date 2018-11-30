@@ -4,3 +4,6 @@
 [submodule "Assets/YourBitcoinScreens"]
 	path = Assets/YourBitcoinScreens
 	url = https://github.com/EstebanGameDevelopment/YourBitcoinScreens.git
+[submodule "Assets/YourCommonTools"]
+	path = Assets/YourCommonTools
+	url = https://github.com/EstebanGameDevelopment/YourCommonTools
