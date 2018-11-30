@@ -135,8 +135,7 @@ namespace YourBitcoinManager
 		 */
 		public override void Destroy()
 		{
-			DestroyScreensPool();
-			DestroyScreensOverlay();
+            DestroyScreensFromLayerPool();
 
 			if (_instance != null)
 			{

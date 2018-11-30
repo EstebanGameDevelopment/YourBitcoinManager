@@ -6,4 +6,5 @@ Temp/
 Assets/PublicAddress_*.png
 Assets/PublicAddress_*.png.meta
 YourBitcoinManager.apk
-*.meta 
+Assets/Plugins/UnityPurchasing/
+Assets/Plugins/UnityChannel/
