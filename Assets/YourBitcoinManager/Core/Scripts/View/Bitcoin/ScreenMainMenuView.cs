@@ -58,7 +58,7 @@ namespace YourBitcoinManager
 		/* 
 		 * Constructor
 		 */
-		public void Initialize(params object[] _list)
+		public override void Initialize(params object[] _list)
 		{
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
@@ -135,8 +135,8 @@ namespace YourBitcoinManager
 		{
 			string warning = LanguageController.Instance.GetText("message.warning");
 			string description = LanguageController.Instance.GetText("message.do.you.want.exit");
-			MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_CONFIRMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENMAIN_CONFIRMATION_EXIT_APP);
-		}
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_CONFIRMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENMAIN_CONFIRMATION_EXIT_APP);
+        }
 
 		// -------------------------------------------
 		/* 
@@ -151,8 +151,8 @@ namespace YourBitcoinManager
 			pages.Add(new PageInformation(title, LanguageController.Instance.GetText("screen.bitcoin.features.page.3"), HelpImages[2], ""));
 			pages.Add(new PageInformation(title, LanguageController.Instance.GetText("screen.bitcoin.features.page.4"), HelpImages[3], ""));
 			pages.Add(new PageInformation(title, LanguageController.Instance.GetText("screen.bitcoin.features.page.5"), HelpImages[4], ""));
-			MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, pages);
-		}
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, pages);
+        }
 
 		// -------------------------------------------
 		/* 
@@ -162,15 +162,15 @@ namespace YourBitcoinManager
 		{
 			if (BitCoinController.Instance.PrivateKeys.Count > 0)
 			{
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
-				Invoke("OnRealSendPayment", 0.1f);
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+                Invoke("OnRealSendPayment", 0.1f);
 			}
 			else
 			{
 				string warning = LanguageController.Instance.GetText("message.warning");
 				string description = LanguageController.Instance.GetText("message.you.dont.have.private.key");
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
+            }
 		}
 
 		// -------------------------------------------
@@ -180,26 +180,31 @@ namespace YourBitcoinManager
 		public void OnRealSendPayment()
 		{
 			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
-			MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenBitcoinSendView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.wallet.used.to.pay"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null);
-		}
+            List<object> paymentParams = new List<object>();
+            paymentParams.Add(ScreenBitcoinSendView.SCREEN_NAME);
+            paymentParams.Add(LanguageController.Instance.GetText("screen.list.select.wallet.used.to.pay"));
+            paymentParams.Add(MenusScreenController.MainInstance.SlotDisplayKeyPrefab);
+            paymentParams.Add(null);
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false, paymentParams.ToArray());
+        }
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * OnReceivePayment
 		 */
-		private void OnReceivePayment()
+        private void OnReceivePayment()
 		{
 			if (BitCoinController.Instance.PrivateKeys.Count > 0)
 			{
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
-				Invoke("OnRealReceivePayment", 0.1f);
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+                Invoke("OnRealReceivePayment", 0.1f);
 			}
 			else
 			{
 				string warning = LanguageController.Instance.GetText("message.warning");
 				string description = LanguageController.Instance.GetText("message.you.dont.have.private.key");
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
+            }
 		}
 
 		// -------------------------------------------
@@ -208,19 +213,24 @@ namespace YourBitcoinManager
 		 */
 		public void OnRealReceivePayment()
 		{
-			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
-			MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenBitcoinReceiveView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.wallet.to.receive.payment"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null);
-		}
+            UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
+            List<object> listKeyParams = new List<object>();
+            listKeyParams.Add(ScreenBitcoinReceiveView.SCREEN_NAME);
+            listKeyParams.Add(LanguageController.Instance.GetText("screen.list.select.wallet.to.receive.payment"));
+            listKeyParams.Add(MenusScreenController.MainInstance.SlotDisplayKeyPrefab);
+            listKeyParams.Add(null);
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false, listKeyParams.ToArray());
+        }
 
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * OnSignOperation
 		 */
-		private void OnSignOperation()
+        private void OnSignOperation()
 		{
-			MenusScreenController.Instance.CreateNewScreen(ScreenOperationSignView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
-		}
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenOperationSignView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
+        }
 
 		// -------------------------------------------
 		/* 
@@ -228,8 +238,8 @@ namespace YourBitcoinManager
 		 */
 		private void OnYourWallet()
 		{
-			MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
-			Invoke("OnRealYourWallet", 0.1f);
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+            Invoke("OnRealYourWallet", 0.1f);
 		}
 
 		// -------------------------------------------
@@ -238,15 +248,20 @@ namespace YourBitcoinManager
 		 */
 		public void OnRealYourWallet()
 		{
-			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
-			MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenBitcoinPrivateKeyView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.or.add.key"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, MenusScreenController.MainInstance.SlotAddKeyPrefab);
-		}
+            UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
+            List<object> walletParams = new List<object>();
+            walletParams.Add(ScreenBitcoinPrivateKeyView.SCREEN_NAME);
+            walletParams.Add(LanguageController.Instance.GetText("screen.list.select.or.add.key"));
+            walletParams.Add(MenusScreenController.MainInstance.SlotDisplayKeyPrefab);
+            walletParams.Add(MenusScreenController.MainInstance.SlotAddKeyPrefab);
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false, walletParams.ToArray());
+        }
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * UpdateBitcoinWallet
 		 */
-		private void UpdateBitcoinWallet()
+        private void UpdateBitcoinWallet()
 		{
 			m_container.Find("YourWallet/Text").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.main.menu.check.wallet");
 
@@ -294,8 +309,8 @@ namespace YourBitcoinManager
 					string description = LanguageController.Instance.GetText("screen.main.access.main.network.pay.iap");
 					string okButton = LanguageController.Instance.GetText("screen.main.access.main.unlock.iap");
 					string cancelButton = LanguageController.Instance.GetText("message.cancel");
-					MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_UNLOCK_CURRENCY, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENMAIN_CONFIRMATION_UNLOCK_BITCOIN_NETWORK, okButton, cancelButton);
-				}
+                    UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_UNLOCK_CURRENCY, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENMAIN_CONFIRMATION_UNLOCK_BITCOIN_NETWORK, okButton, cancelButton);
+                }
 			}
 			else
 			{
@@ -303,8 +318,8 @@ namespace YourBitcoinManager
 				string description = LanguageController.Instance.GetText("screen.main.change.network.and.restart");
 				string okButton = LanguageController.Instance.GetText("screen.main.change.network.confirmation");
 				string cancelButton = LanguageController.Instance.GetText("message.cancel");
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_CHANGE_NETWORK, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENMAIN_CONFIRMATION_CHANGE_NETWORK, okButton, cancelButton);
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_CHANGE_NETWORK, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENMAIN_CONFIRMATION_CHANGE_NETWORK, okButton, cancelButton);
+            }
 		}
 
 		// -------------------------------------------
@@ -346,10 +361,15 @@ namespace YourBitcoinManager
 
 			if (_nameEvent == EVENT_SCREENMAIN_LOAD_SCREEN_KEYS_FOR_SIGN)
 			{
-				UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
-				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, ScreenBitcoinElementsToSignView.SCREEN_NAME, LanguageController.Instance.GetText("screen.list.select.wallet.to.sign.data"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null);
-			}
-			if (_nameEvent == ScreenController.EVENT_CONFIRMATION_POPUP)
+                UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
+                List<object> listKeyParams = new List<object>();
+                listKeyParams.Add(ScreenBitcoinElementsToSignView.SCREEN_NAME);
+                listKeyParams.Add(LanguageController.Instance.GetText("screen.list.select.wallet.to.sign.data"));
+                listKeyParams.Add(MenusScreenController.MainInstance.SlotDisplayKeyPrefab);
+                listKeyParams.Add(null);
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false, listKeyParams.ToArray());
+            }
+            if (_nameEvent == ScreenController.EVENT_CONFIRMATION_POPUP)
 			{
 				string subEvent = (string)_list[2];
 				if (subEvent == SUB_EVENT_SCREENMAIN_CONFIRMATION_EXIT_APP)
@@ -357,19 +377,19 @@ namespace YourBitcoinManager
 					if ((bool)_list[1])
 					{
 						Application.Quit();
-						MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.close.the.app"), null, "");
-					}
+                        UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.close.the.app"), null, "");
+                    }
 				}
 				if (subEvent == SUB_EVENT_SCREENMAIN_CONFIRMATION_UNLOCK_BITCOIN_NETWORK)
 				{
 					if ((bool)_list[1])
 					{
-						// WAIT MESSAGE
-						MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+                        // WAIT MESSAGE
+                        UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
 
                         // BUY IAP
 #if ENABLE_IAP
-						UnlockAccessMainBitcoinNetwork();
+                        UnlockAccessMainBitcoinNetwork();
 #endif
                     }
                     else
@@ -391,8 +411,8 @@ namespace YourBitcoinManager
 						{
 							BitCoinController.Instance.IsMainNetwork = false;
 						}
-						MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.close.the.app"), null, "");
-						Application.Quit();
+                        UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.close.the.app"), null, "");
+                        Application.Quit();
 					}
 					else
 					{
@@ -413,8 +433,8 @@ namespace YourBitcoinManager
 					PlayerPrefs.SetInt(PAID_ACCESS_MAIN_BITCOIN_NETWORK, 1);
 					string warning = LanguageController.Instance.GetText("message.info");
 					string description = LanguageController.Instance.GetText("screen.main.access.main.success.unlock.iap.confirmation");
-					MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
-				}
+                    UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
+                }
 				else
 				{
 					m_networkBitcoin.value = m_indexCurrentNetwork;
@@ -422,8 +442,8 @@ namespace YourBitcoinManager
 					m_accessToMainBitcoinNetwork = false;
 					string warning = LanguageController.Instance.GetText("message.error");
 					string description = LanguageController.Instance.GetText("screen.main.access.main.failure.unlock.iap.confirmation");
-					MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
-				}
+                    UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
+                }
 			}
 #endif
 			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)

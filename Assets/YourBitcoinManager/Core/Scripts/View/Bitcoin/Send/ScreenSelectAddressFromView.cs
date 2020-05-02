@@ -43,7 +43,10 @@ namespace YourBitcoinManager
 			m_excludeCurrentAddress = true;
 			if (_list.Length > 0)
 			{
-				m_excludeCurrentAddress = (bool)_list[0];
+                if (_list[0] != null)
+                {
+                    m_excludeCurrentAddress = (bool)_list[0];
+                }				
 			}
 
 			m_root = this.gameObject;
@@ -92,12 +95,12 @@ namespace YourBitcoinManager
 			Destroy();
 			if (m_excludeCurrentAddress)
 			{
-				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, BitCoinController.Instance.CurrentPublicKey);
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 2, null, ScreenBitcoinListAddressesView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, BitCoinController.Instance.CurrentPublicKey);
+            }
 			else
 			{
-				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListAddressesView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 2, null, ScreenBitcoinListAddressesView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
+            }
 		}
 
 		// -------------------------------------------
@@ -109,13 +112,24 @@ namespace YourBitcoinManager
 			Destroy();
 			if (m_excludeCurrentAddress)
 			{
-				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null, BitCoinController.Instance.CurrentPrivateKey);
-			}
-			else
+                List<object> listKeyParams = new List<object>();
+                listKeyParams.Add("");
+                listKeyParams.Add(LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"));
+                listKeyParams.Add(MenusScreenController.MainInstance.SlotDisplayKeyPrefab);
+                listKeyParams.Add(null);
+                listKeyParams.Add(BitCoinController.Instance.CurrentPrivateKey);
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 2, null, ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false, listKeyParams.ToArray());
+            }
+            else
 			{
-				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, "", LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"), MenusScreenController.MainInstance.SlotDisplayKeyPrefab, null);
-			}
-		}
+                List<object> listKeyParams = new List<object>();
+                listKeyParams.Add("");
+                listKeyParams.Add(LanguageController.Instance.GetText("screen.bitcoin.select.wallet.to.send"));
+                listKeyParams.Add(MenusScreenController.MainInstance.SlotDisplayKeyPrefab);
+                listKeyParams.Add(null);
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 2, null, ScreenBitcoinListKeysView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false, listKeyParams.ToArray());
+            }
+        }
 
 		// -------------------------------------------
 		/* 
@@ -124,8 +138,8 @@ namespace YourBitcoinManager
 		private void OnQRCode()
 		{
 			Destroy();
-			MenusScreenController.Instance.CreateNewScreen(ScreenQRCodeScanView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
-		}
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 2, null, ScreenQRCodeScanView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
+        }
 
 		// -------------------------------------------
 		/* 

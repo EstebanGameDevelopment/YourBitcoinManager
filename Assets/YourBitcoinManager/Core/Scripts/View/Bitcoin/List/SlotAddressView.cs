@@ -60,7 +60,6 @@ namespace YourBitcoinManager
 			return true;
 		}
 
-
 		// -------------------------------------------
 		/* 
 		 * OnPointerClick
@@ -70,5 +69,24 @@ namespace YourBitcoinManager
 			base.OnPointerClick(eventData);
 			UIEventController.Instance.DispatchUIEvent(EVENT_SLOT_ADDRESS_SELECTED, m_address);
 		}
-	}
+
+        // -------------------------------------------
+        /* 
+		 * GetOnClick
+		 */
+        public ButtonClickedEvent GetOnClick()
+        {
+            return this.onClick;
+        }
+
+        // -------------------------------------------
+        /* 
+		 * RunOnClick
+		 */
+        public bool RunOnClick()
+        {
+            UIEventController.Instance.DispatchUIEvent(EVENT_SLOT_ADDRESS_SELECTED, m_address);
+            return true;
+        }
+    }
 }

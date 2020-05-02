@@ -70,7 +70,14 @@ namespace YourBitcoinManager
 		{
 			if (_list.Length > 0)
 			{
-				m_modeSignData = (bool)_list[0];
+                object[] objectParams = (object[])_list[0];
+                if (objectParams != null)
+                {
+                    if (objectParams.Length > 0)
+                    {
+                        m_modeSignData = (bool)objectParams[0];
+                    }                        
+                }                
 			}
 			else
 			{
@@ -142,8 +149,8 @@ namespace YourBitcoinManager
 			if (m_documentsToSign.Count > 0)
 			{
 				HasChanged = true;
-			}			
-			m_listElements.GetComponent<SlotManagerView>().ClearCurrentGameObject(true);			
+			}
+			m_listElements.GetComponent<SlotManagerView>().ClearCurrentGameObject(true);
 			m_listElements.GetComponent<SlotManagerView>().Initialize(4, m_documentsToSign, PrefabSlotElement, PrefabSlotNew);
 		}
 
@@ -155,8 +162,8 @@ namespace YourBitcoinManager
 		{
 			if (m_documentsToSign.Count == 0)
 			{
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.sign.no.data.to.sign"), MenusScreenController.MainInstance.SignedDataFailed, "");
-				return;
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.sign.no.data.to.sign"), MenusScreenController.MainInstance.SignedDataFailed, "");
+                return;
 			}
 
 			List<byte[]> documentsBytes = new List<byte[]>();
@@ -202,12 +209,12 @@ namespace YourBitcoinManager
 			if (m_modeSignData)
 			{
 				HasChanged = false;
-				MenusScreenController.Instance.CreateNewScreen(ScreenEmailSignedDataView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, signedData);
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenEmailSignedDataView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, signedData);
+            }
 			else
 			{
-				MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinSignedVerificationView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenBitcoinSignedVerificationView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
+            }
 		}
 
 		// -------------------------------------------
@@ -224,9 +231,8 @@ namespace YourBitcoinManager
 			{
 				string warning = LanguageController.Instance.GetText("message.warning");
 				string description = LanguageController.Instance.GetText("message.exit.without.apply.changes");
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_CONFIRMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENBITCOINELEMENTOSIGN_CONFIRMATION_EXIT_WITHOUT_PROCESS);
-			}
-
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_CONFIRMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, SUB_EVENT_SCREENBITCOINELEMENTOSIGN_CONFIRMATION_EXIT_WITHOUT_PROCESS);
+            }
 		}
 
 		// -------------------------------------------
@@ -243,12 +249,10 @@ namespace YourBitcoinManager
 		 */
 		private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
-			if (!this.gameObject.activeSelf) return;
-
 			if (_nameEvent == AddElementView.EVENT_ADD_ELEMENT_SELECTED)
 			{
-				MenusScreenController.Instance.CreateNewScreen(ScreenTypeDataView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"));				
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenTypeDataView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"));
+            }
 			if (_nameEvent == SlotElementView.EVENT_SLOT_ELEMENT_SELECTED)
 			{
 			}
@@ -291,17 +295,17 @@ namespace YourBitcoinManager
 				{
 					if (BitCoinController.Instance.VerifySignedData(m_originalData, signedDataToVerify, publicKeyAddresToUse))
 					{
-						MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.sign.validation.success"), MenusScreenController.MainInstance.SignedDataOK, "");
-					}
+                        UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.sign.validation.success"), MenusScreenController.MainInstance.SignedDataOK, "");
+                    }
 					else
 					{
-						MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.sign.validation.failed"), MenusScreenController.MainInstance.SignedDataFailed, "");
-					}
+                        UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.sign.validation.failed"), MenusScreenController.MainInstance.SignedDataFailed, "");
+                    }
 				}
 				catch (Exception err)
 				{
-					MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.sign.validation.failed"), MenusScreenController.MainInstance.SignedDataFailed, "");
-				}
+                    UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("screen.bitcoin.sign.validation.failed"), MenusScreenController.MainInstance.SignedDataFailed, "");
+                }
 			}
 			if (_nameEvent == ScreenController.EVENT_CONFIRMATION_POPUP)
 			{

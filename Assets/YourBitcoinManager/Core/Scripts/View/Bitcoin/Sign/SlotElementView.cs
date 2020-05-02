@@ -141,16 +141,22 @@ namespace YourBitcoinManager
 					switch (m_typeItem)
 					{
 						case TYPE_STRING:
-							MenusScreenController.Instance.CreateNewScreen(ScreenEnterTextView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"), (string)m_item.Objects[2]);
-							break;
+                            List<object> listKeyParams = new List<object>();
+                            listKeyParams.Add(LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"));
+                            listKeyParams.Add((string)m_item.Objects[2]);
+                            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenEnterTextView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, listKeyParams.ToArray());
+                            break;
 
 						case TYPE_FILE:
 							if (m_isImage)
 							{
 								Texture2D loadedTexture = ImageUtils.LoadTexture2D((string)m_item.Objects[2], 600);
 								byte[] dataImage = loadedTexture.EncodeToJPG(75);
-								MenusScreenController.Instance.CreateNewScreen(ScreenSingleImageView.SCREEN_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, (long)-1, dataImage);
-							}
+                                List<object> listFileParams = new List<object>();
+                                listFileParams.Add((long)-1);
+                                listFileParams.Add(dataImage);
+                                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenSingleImageView.SCREEN_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, listFileParams.ToArray());
+                            }
 							break;
 					}
 				}
@@ -165,5 +171,23 @@ namespace YourBitcoinManager
 			}
 		}
 
-	}
+        // -------------------------------------------
+        /* 
+		 * GetOnClick
+		 */
+        public ButtonClickedEvent GetOnClick()
+        {
+            return this.onClick;
+        }
+
+        // -------------------------------------------
+        /* 
+		 * RunOnClick
+		 */
+        public bool RunOnClick()
+        {
+            UIEventController.Instance.DispatchUIEvent(EVENT_SLOT_ELEMENT_SELECTED, m_item);
+            return true;
+        }
+    }
 }

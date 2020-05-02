@@ -220,8 +220,8 @@ namespace YourBitcoinManager
 #if ENABLE_QRCODE
 			m_sendQRCodeImageByEmail = false;
 #endif
-			MenusScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
-		}
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenEnterEmailView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
+        }
 
 		// -------------------------------------------
 		/* 
@@ -232,8 +232,8 @@ namespace YourBitcoinManager
 #if ENABLE_QRCODE
 			m_sendQRCodeImageByEmail = true;
 #endif
-			MenusScreenController.Instance.CreateNewScreen(ScreenEnterEmailView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
-		}
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenEnterEmailView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.enter.email.address"));
+        }
 
 		// -------------------------------------------
 		/* 

@@ -1,0 +1,103 @@
+--------- beginning of system
+05-01 20:20:58.647   922  1004 W Looper  : Slow dispatch took 292ms android.fg h=android.os.Handler c=<recycled PooledLambda@32b2bdc> m=0
+--------- beginning of main
+05-01 20:20:58.686   922  1120 I PackageManager.DexOptimizer: Running dexopt (dexoptNeeded=1) on: /data/app/com.dropbox.android-4Cs6lV2VZir8VWAZ02vYdg==/base.apk pkg=com.dropbox.android isa=arm64 dexoptFlags=boot_complete,profile_guided,public,enable_hidden_api_checks targetFilter=speed-profile oatDir=/data/app/com.dropbox.android-4Cs6lV2VZir8VWAZ02vYdg==/oat classLoaderContext=PCL[]{PCL[/system/framework/android.test.mock.jar]{PCL[/system/framework/android.test.base.jar]}#PCL[/system/framework/android.test.runner.jar]{PCL[/system/framework/android.test.base.jar]#PCL[/system/framework/android.test.mock.jar]{PCL[/system/framework/android.test.base.jar]}}}
+05-01 20:20:58.696   790 29847 V installd: DexInv: --- BEGIN '/data/app/com.dropbox.android-4Cs6lV2VZir8VWAZ02vYdg==/base.apk' ---
+05-01 20:20:58.813 23205 23205 I dex2oat : /apex/com.android.runtime/bin/dex2oat --input-vdex-fd=-1 --output-vdex-fd=11 --resolve-startup-const-strings=true --max-image-block-size=524288 --compiler-filter=speed-profile --profile-file-fd=14 --classpath-dir=/data/app/com.dropbox.android-4Cs6lV2VZir8VWAZ02vYdg== --class-loader-context=PCL[]{PCL[/system/framework/android.test.mock.jar]{PCL[/system/framework/android.test.base.jar]}#PCL[/system/framework/android.test.runner.jar]{PCL[/system/framework/android.test.base.jar]#PCL[/system/framework/android.test.mock.jar]{PCL[/system/framework/android.test.base.jar]}}} --generate-mini-debug-info --compact-dex-level=none --compilation-reason=install
+05-01 20:20:58.815 23205 23205 I dex2oat : setting boot class path to /apex/com.android.runtime/javalib/core-oj.jar:/apex/com.android.runtime/javalib/core-libart.jar:/apex/com.android.runtime/javalib/okhttp.jar:/apex/com.android.runtime/javalib/bouncycastle.jar:/apex/com.android.runtime/javalib/apache-xml.jar:/system/framework/framework.jar:/system/framework/ext.jar:/system/framework/telephony-common.jar:/system/framework/voip-common.jar:/system/framework/ims-common.jar:/system/framework/android.test.base.jar
+05-01 20:20:59.172   922  8153 E WifiService: Permission violation - getScanResults not allowed for uid=10613, packageName=com.mobzapp.screencast, reason=java.lang.SecurityException: UID 10613 has no location permission
+05-01 20:20:59.198   922  8153 I chatty  : uid=1000(system) Binder:922_1C identical 5 lines
+05-01 20:20:59.203   922  8153 E WifiService: Permission violation - getScanResults not allowed for uid=10613, packageName=com.mobzapp.screencast, reason=java.lang.SecurityException: UID 10613 has no location permission
+05-01 20:20:59.210   922  4041 E WifiService: Permission violation - getScanResults not allowed for uid=10613, packageName=com.mobzapp.screencast, reason=java.lang.SecurityException: UID 10613 has no location permission
+05-01 20:20:59.214   922  4041 I chatty  : uid=1000(system) Binder:922_10 identical 1 line
+05-01 20:20:59.218   922  4041 E WifiService: Permission violation - getScanResults not allowed for uid=10613, packageName=com.mobzapp.screencast, reason=java.lang.SecurityException: UID 10613 has no location permission
+05-01 20:20:59.407 26749 26763 I .gms.persisten: Background concurrent copying GC freed 342081(16MB) AllocSpace objects, 7(128KB) LOS objects, 49% free, 14MB/28MB, paused 134us total 159.550ms
+05-01 20:21:00.338 21676 23068 I BugleDataModel: ParticipantRefresh: Start participant refresh. refreshMode: SELF_ONLY
+05-01 20:21:00.944 21676 23068 W BugleDataModel: SelfParticipantsData: Failed to update self participants' subscription info. updateCount: 0
+05-01 20:21:01.003 21676 23068 W BugleDataModel: SelfParticipantsData: Failed to update self participants' subscription info. updateCount: 0
+05-01 20:21:01.629 21676 23068 I BugleDataModel: ParticipantRefresh: No update made to participant: 1
+05-01 20:21:01.679 21676 23068 W Bugle   : Get mms config failed: invalid subId. subId=1, real subId=1, map={ 3 }
+05-01 20:21:01.679 21676 23068 I BugleBackup: Registering preference change listener for "buglesub_1".
+05-01 20:21:01.684 21676 23068 W Bugle   : MultiSimSubscriptionUtils: getSelfRawNumber: subInfo is null for subscription{id:1}
+05-01 20:21:01.709 21676 23068 I BugleDataModel: ParticipantRefresh: No update made to participant: 2
+05-01 20:21:01.746 21676 23068 I BugleBackup: Registering preference change listener for "buglesub_2".
+05-01 20:21:01.823 21676 23068 W Bugle   : MultiSimSubscriptionUtils: getSelfRawNumber: subInfo is null for subscription{id:2}
+05-01 20:21:01.863 21676 23068 I BugleDataModel: ParticipantRefresh: No update made to participant: 3
+05-01 20:21:01.946 21676 23068 I BugleDataModel: ParticipantRefresh: No update made to participant: 71
+05-01 20:21:01.972 21676 23068 I BugleDataModel: ParticipantRefresh: Number of participants refreshed: 4
+05-01 20:21:02.006 19832 19853 I Unity   : ScreenBaseView::OnDestroy::NAME OBJECT DESTROYED[SCREEN_WAIT(Clone)]
+05-01 20:21:02.006 19832 19853 I Unity   : UnityEngine.Logger:Log(LogType, Object)
+05-01 20:21:02.006 19832 19853 I Unity   : YourCommonTools.ScreenBaseView:OnDestroy()
+05-01 20:21:02.006 19832 19853 I Unity   :  
+05-01 20:21:02.006 19832 19853 I Unity   : (Filename: ./Runtime/Export/Debug/Debug.bindings.h Line: 35)
+05-01 20:21:02.006 19832 19853 I Unity   : 
+05-01 20:21:02.055   922  4041 I ActivityManager: Killing 21779:com.google.android.setupwizard/u0a57 (adj 975): empty #17
+05-01 20:21:02.077   627   627 I Zygote  : Process 21779 exited due to signal 9 (Killed)
+05-01 20:21:02.103   922  1051 I libprocessgroup: Successfully killed process cgroup uid 10057 pid 21779 in 43ms
+05-01 20:21:04.077 21676 23068 I BugleJobs: GenericWorkerQueueAction: Bailing early, no work found, no failed work found
+05-01 20:21:04.205 23205 23205 I dex2oat : Large app, accepted running with swap.
+05-01 20:21:06.896   617 23217 E ResolverController: No valid NAT64 prefix (116, <unspecified>/0)
+05-01 20:21:07.439 22657 23216 W DynamiteModule: Local module descriptor class for providerinstaller not found.
+05-01 20:21:07.462 22657 23216 W ProviderInstaller: Failed to load providerinstaller module: No acceptable module found. Local version is 0 and remote version is 0.
+05-01 20:21:07.475 22657 23216 W Conscrypt: Could not set socket write timeout: java.net.SocketException: Socket closed
+05-01 20:21:07.477 22657 23216 W Conscrypt: 	at com.google.android.gms.org.conscrypt.Platform.setSocketWriteTimeout(:com.google.android.gms@201515037@20.15.15 (120400-306758586):2)
+05-01 20:21:07.477 22657 23216 W Conscrypt: 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.setSoWriteTimeout(:com.google.android.gms@201515037@20.15.15 (120400-306758586):0)
+05-01 20:21:07.846 22657 23216 W Gmail   : Gmail:SSLException opening MailTransport. Error Code: 1
+05-01 20:21:07.846 22657 23216 W Gmail   : javax.net.ssl.SSLHandshakeException: PublicKey has changed since initial connection!
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(:com.google.android.gms@201515037@20.15.15 (120400-306758586):25)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at ccx.a(PG:24)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at ccs.createSocket(PG:6)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bqt.b(PG:6)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bqt.h(Unknown Source:1)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bqt.g(PG:24)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bpr.a(PG:28)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bpr.b(PG:2)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bpr.b(PG:4)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bpr.a(PG:24)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bpr.a(PG:23)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at bpv.b(PG:7)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at btt.a(PG:11)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at btx.a(PG:38)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at pco.a(PG:2)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at btc.a(PG:9)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at ccb.onPerformSync(PG:2)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at android.content.AbstractThreadedSyncAdapter$SyncThread.run(AbstractThreadedSyncAdapter.java:334)
+05-01 20:21:07.846 22657 23216 W Gmail   : Caused by: java.security.cert.CertificateException: PublicKey has changed since initial connection!
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at ccw.checkServerTrusted(PG:8)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at com.google.android.gms.org.conscrypt.Platform.checkServerTrusted(:com.google.android.gms@201515037@20.15.15 (120400-306758586):4)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.verifyCertificateChain(:com.google.android.gms@201515037@20.15.15 (120400-306758586):5)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at com.google.android.gms.org.conscrypt.NativeCrypto.SSL_do_handshake(Native Method)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at com.google.android.gms.org.conscrypt.NativeSsl.doHandshake(:com.google.android.gms@201515037@20.15.15 (120400-306758586):6)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(:com.google.android.gms@201515037@20.15.15 (120400-306758586):16)
+05-01 20:21:07.846 22657 23216 W Gmail   : 	... 17 more
+05-01 20:21:07.847 22657 23216 E Gmail   : Gmail:Error in updateFolderList: bwg: PublicKey has changed since initial connection! [cert_validation_error]
+05-01 20:21:07.847 22657 23216 E Gmail   : bwg: PublicKey has changed since initial connection! [cert_validation_error]
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bqt.b(PG:25)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bqt.h(Unknown Source:1)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bqt.g(PG:24)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bpr.a(PG:28)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bpr.b(PG:2)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bpr.b(PG:4)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bpr.a(PG:24)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bpr.a(PG:23)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bpv.b(PG:7)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at btt.a(PG:11)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at btx.a(PG:38)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at pco.a(PG:2)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at btc.a(PG:9)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at ccb.onPerformSync(PG:2)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at android.content.AbstractThreadedSyncAdapter$SyncThread.run(AbstractThreadedSyncAdapter.java:334)
+05-01 20:21:07.847 22657 23216 E Gmail   : Caused by: javax.net.ssl.SSLHandshakeException: PublicKey has changed since initial connection!
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(:com.google.android.gms@201515037@20.15.15 (120400-306758586):25)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at ccx.a(PG:24)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at ccs.createSocket(PG:6)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at bqt.b(PG:6)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	... 14 more
+05-01 20:21:07.847 22657 23216 E Gmail   : Caused by: java.security.cert.CertificateException: PublicKey has changed since initial connection!
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at ccw.checkServerTrusted(PG:8)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at com.google.android.gms.org.conscrypt.Platform.checkServerTrusted(:com.google.android.gms@201515037@20.15.15 (120400-306758586):4)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.verifyCertificateChain(:com.google.android.gms@201515037@20.15.15 (120400-306758586):5)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at com.google.android.gms.org.conscrypt.NativeCrypto.SSL_do_handshake(Native Method)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at com.google.android.gms.org.conscrypt.NativeSsl.doHandshake(:com.google.android.gms@201515037@20.15.15 (120400-306758586):6)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	at com.google.android.gms.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(:com.google.android.gms@201515037@20.15.15 (120400-306758586):16)
+05-01 20:21:07.847 22657 23216 E Gmail   : 	... 17 more

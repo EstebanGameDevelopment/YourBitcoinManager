@@ -6,5 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/YourBitcoinManager/Scenes/YourBitcoinManager.unity
+    path: Assets/YourBitcoinManager/Core/Scenes/YourBitcoinManager.unity
     guid: 7d7311417309cc64b96fcd1d40ae7add
+  - enabled: 1
+    path: Assets/YourBitcoinManager/Core/Scenes/EmptyScene.unity
+    guid: ed711837331f61549a71507eec3d9ac1
+  m_configObjects: {}

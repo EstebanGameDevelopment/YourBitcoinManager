@@ -100,9 +100,9 @@ namespace YourBitcoinManager
 
 			// Debug.LogError("///////////////////////////////////////////////////////////////////////////////////////////");
 			LanguageController.Instance.Initialize();
-			CreateNewInformationScreen(ScreenInformationView.SCREEN_INITIAL_CONNECTION, UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, LanguageController.Instance.GetText("message.your.bitcoin.manager.title"), LanguageController.Instance.GetText("message.connecting.to.blockchain"), null, null);
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INITIAL_CONNECTION, UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, LanguageController.Instance.GetText("message.your.bitcoin.manager.title"), LanguageController.Instance.GetText("message.connecting.to.blockchain"), null, "");
 
-			Invoke("InitializeBitcoinCustom", 0.1f);
+            Invoke("InitializeBitcoinCustom", 0.1f);
 		}
 
 		// -------------------------------------------
@@ -174,8 +174,8 @@ namespace YourBitcoinManager
 		{			
 			if (m_hasBeenInitialized && m_hasIAPBeenInitialized)
 			{				
-				CreateNewScreen(ScreenToLoad, UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, true);
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenToLoad, UIScreenTypePreviousAction.DESTROY_ALL_SCREENS, true);
+            }
 		}
 
 		// -------------------------------------------

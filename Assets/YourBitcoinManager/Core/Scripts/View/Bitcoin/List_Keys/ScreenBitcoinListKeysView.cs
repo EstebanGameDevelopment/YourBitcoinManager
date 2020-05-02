@@ -40,13 +40,15 @@ namespace YourBitcoinManager
 		 */
 		public override void Initialize(params object[] _list)
 		{
-			m_targetNameScreen = (string)_list[0];
-			string description = (string)_list[1];
-			m_prefabSlotKey = (GameObject)_list[2];
-			m_prefabSlotNew = (GameObject)_list[3];
-			if (_list.Length >= 5)
+            object[] objectParams = (object[])_list[0];
+
+			m_targetNameScreen = (string)objectParams[0];
+			string description = (string)objectParams[1];
+			m_prefabSlotKey = (GameObject)objectParams[2];
+			m_prefabSlotNew = (GameObject)objectParams[3];
+			if (objectParams.Length >= 5)
 			{
-				m_excludeAddress = (string)_list[4];
+				m_excludeAddress = (string)objectParams[4];
 			}
 			else
 			{
@@ -155,9 +157,9 @@ namespace YourBitcoinManager
 			if (!m_hasBeenPressed)
 			{
 				m_hasBeenPressed = true;
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
 
-				Invoke("RefreshRealPressed", 0.1f);
+                Invoke("RefreshRealPressed", 0.1f);
 			}			
 		}
 
@@ -179,8 +181,8 @@ namespace YourBitcoinManager
 		public void OnRealLoadNetScreen()
 		{
 			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_POPUP);
-			MenusScreenController.Instance.CreateNewScreen(m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, true);
-		}
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false);
+        }
 
 		// -------------------------------------------
 		/* 
@@ -225,8 +227,8 @@ namespace YourBitcoinManager
 			if (_nameEvent == AddKeyView.EVENT_ADD_KEY_SELECTED)
 			{
 				BitCoinController.Instance.CurrentPrivateKey = "";
-				MenusScreenController.Instance.CreateNewScreen(m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, true);
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false);
+            }
 			if (_nameEvent == SlotKeyView.EVENT_SLOT_SELECTED)
 			{
 				if (m_targetNameScreen.Length > 0)
@@ -234,13 +236,22 @@ namespace YourBitcoinManager
 					BitCoinController.Instance.CurrentPrivateKey = (string)_list[0];
 					if (m_targetNameScreen == ScreenBitcoinPrivateKeyView.SCREEN_NAME)
 					{
-						MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
-						Invoke("OnRealLoadNetScreen", 0.1f);
+                        UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+                        Invoke("OnRealLoadNetScreen", 0.1f);
 					}
 					else
 					{
-						MenusScreenController.Instance.CreateNewScreen(m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true);
-					}
+                        if (m_targetNameScreen == ScreenBitcoinElementsToSignView.SCREEN_NAME)
+                        {
+                            List<object> listKeyParams = new List<object>();
+                            listKeyParams.Add(true);
+                            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false, listKeyParams.ToArray());
+                        }
+                        else
+                        {
+                            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, m_targetNameScreen, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false);
+                        }
+                    }
 				}
 				else
 				{

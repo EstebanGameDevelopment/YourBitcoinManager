@@ -128,8 +128,11 @@ namespace YourBitcoinManager
 				{
 					Texture2D loadedTexture = ImageUtils.LoadTexture2D(m_currentFileSelection, 600);
 					byte[] dataImage = loadedTexture.EncodeToJPG(75);
-					MenusScreenController.Instance.CreateNewScreen(ScreenSingleImageView.SCREEN_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, (long)-1, dataImage);
-				}
+                    List<object> listKeyParams = new List<object>();
+                    listKeyParams.Add((long)-1);
+                    listKeyParams.Add(dataImage);
+                    UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenSingleImageView.SCREEN_IMAGE, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, listKeyParams);
+                }
 			}
 			if (_nameEvent == FileItemView.EVENT_FILE_FOLDER_SELECTED)
 			{

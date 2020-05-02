@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourBitcoinManager", "Assembly-CSharp.csproj", "{ED66B51B-24C1-5657-667B-3033E2741A85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{ED66B51B-24C1-5657-667B-3033E2741A85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourBitcoinManager", "Assembly-CSharp-firstpass.csproj", "{544ED58D-305A-C247-9072-BB969CB49AE6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{544ED58D-305A-C247-9072-BB969CB49AE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourBitcoinManager", "Assembly-CSharp-Editor-firstpass.csproj", "{69C95CF1-C4A5-59D8-8EA6-D53D764B28B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{69C95CF1-C4A5-59D8-8EA6-D53D764B28B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{B2EA6984-C793-C625-60EA-6A3646660815}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{69C95CF1-C4A5-59D8-8EA6-D53D764B28B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69C95CF1-C4A5-59D8-8EA6-D53D764B28B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69C95CF1-C4A5-59D8-8EA6-D53D764B28B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2EA6984-C793-C625-60EA-6A3646660815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2EA6984-C793-C625-60EA-6A3646660815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2EA6984-C793-C625-60EA-6A3646660815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2EA6984-C793-C625-60EA-6A3646660815}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

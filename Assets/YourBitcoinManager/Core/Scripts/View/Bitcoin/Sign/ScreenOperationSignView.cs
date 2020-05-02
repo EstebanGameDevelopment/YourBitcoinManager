@@ -81,15 +81,15 @@ namespace YourBitcoinManager
 		{
 			if (BitCoinController.Instance.PrivateKeys.Count > 0)
 			{
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
-				UIEventController.Instance.DelayUIEvent(ScreenMainMenuView.EVENT_SCREENMAIN_LOAD_SCREEN_KEYS_FOR_SIGN, 0.1f);
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_WAIT, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, LanguageController.Instance.GetText("message.info"), LanguageController.Instance.GetText("message.please.wait"), null, "");
+                UIEventController.Instance.DelayUIEvent(ScreenMainMenuView.EVENT_SCREENMAIN_LOAD_SCREEN_KEYS_FOR_SIGN, 0.1f);
 			}
 			else
 			{
 				string warning = LanguageController.Instance.GetText("message.warning");
 				string description = LanguageController.Instance.GetText("message.you.dont.have.private.key");
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, warning, description, null, "");
+            }
 		}
 
 		// -------------------------------------------
@@ -99,8 +99,10 @@ namespace YourBitcoinManager
 		private void OnVerifyAuthenticity()
 		{
 			Destroy();
-			MenusScreenController.Instance.CreateNewScreen(ScreenBitcoinElementsToSignView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, true, false);
-		}
+            List<object> listKeyParams = new List<object>();
+            listKeyParams.Add(false);
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_GENERIC_SCREEN, ScreenBitcoinElementsToSignView.SCREEN_NAME, UIScreenTypePreviousAction.HIDE_CURRENT_SCREEN, false, listKeyParams.ToArray());
+        }
 
 		// -------------------------------------------
 		/* 

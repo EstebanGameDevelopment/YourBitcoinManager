@@ -60,31 +60,33 @@ namespace YourBitcoinManager
 			return false;
 		}
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * OnAddTypeText
 		 */
-		private void OnAddTypeText()
-		{			
-			Destroy();
-			MenusScreenController.Instance.CreateNewScreen(ScreenEnterTextView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"));
-		}
+        private void OnAddTypeText()
+        {
+            Destroy();
+            List<object> listKeyParams = new List<object>();
+            listKeyParams.Add(LanguageController.Instance.GetText("screen.bitcoin.sign.write.text.you.want.signed"));
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenEnterTextView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false, listKeyParams.ToArray());
+        }
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * OnAddTypeFile
 		 */
-		private void OnAddTypeFile()
-		{
-			Destroy();
-			MenusScreenController.Instance.CreateNewScreen(ScreenFileElementNavitagorView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
-		}
+        private void OnAddTypeFile()
+        {
+            Destroy();
+            UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_LAYER_GENERIC_SCREEN, 1, null, ScreenFileElementNavitagorView.SCREEN_NAME, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, false);
+        }
 
-		// -------------------------------------------
-		/* 
+        // -------------------------------------------
+        /* 
 		 * OnBasicEvent
 		 */
-		private void OnBasicEvent(string _nameEvent, params object[] _list)
+        private void OnBasicEvent(string _nameEvent, params object[] _list)
 		{
 			if (_nameEvent == UIEventController.EVENT_SCREENMANAGER_ANDROID_BACK_BUTTON)
 			{

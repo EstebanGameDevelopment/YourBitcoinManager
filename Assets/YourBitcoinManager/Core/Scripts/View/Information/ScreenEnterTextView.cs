@@ -41,18 +41,20 @@ namespace YourBitcoinManager
 		 */
 		public override void Initialize(params object[] _list)
 		{
+            object[] objectParams = (object[])_list[0];
+
 			string initialText = "";
 			m_isModification = false;
-			if (_list.Length > 1)
+			if (objectParams.Length > 1)
 			{
-				initialText = (string)_list[1];
+				initialText = (string)objectParams[1];
 				m_isModification = true;
 			}
 
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
 
-			m_container.Find("Title").GetComponent<Text>().text = (string)_list[0];
+			m_container.Find("Title").GetComponent<Text>().text = (string)objectParams[0];
 			m_container.Find("InputText").GetComponent<InputField>().text = initialText;
 
 			m_container.Find("Button_Save").GetComponent<Button>().onClick.AddListener(OnConfirmEmail);
@@ -87,8 +89,8 @@ namespace YourBitcoinManager
 			{
 				string titleInfoError = LanguageController.Instance.GetText("message.error");
 				string descriptionInfoError = LanguageController.Instance.GetText("screen.enter.email.empty.data");
-				MenusScreenController.Instance.CreateNewInformationScreen(ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, titleInfoError, descriptionInfoError, null, "");
-			}
+                UIEventController.Instance.DispatchUIEvent(UIEventController.EVENT_SCREENMANAGER_OPEN_INFORMATION_SCREEN, ScreenInformationView.SCREEN_INFORMATION, UIScreenTypePreviousAction.KEEP_CURRENT_SCREEN, titleInfoError, descriptionInfoError, null, "");
+            }
 			else
 			{
 				if (m_isModification)

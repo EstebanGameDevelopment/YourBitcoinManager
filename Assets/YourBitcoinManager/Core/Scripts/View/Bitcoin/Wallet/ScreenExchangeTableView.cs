@@ -35,8 +35,10 @@ namespace YourBitcoinManager
 			m_root = this.gameObject;
 			m_container = m_root.transform.Find("Content");
 
-			decimal bitcoinsUser = (decimal)_list[0];
-			string tableBitcoinsExchange = (string)_list[1];
+            object[] objectParams = (object[])_list[0];
+
+			decimal bitcoinsUser = (decimal)objectParams[0];
+			string tableBitcoinsExchange = (string)objectParams[1];
 
 			m_container.Find("Title").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.table.exchange.title");
 			m_container.Find("MoneyEarned").GetComponent<Text>().text = LanguageController.Instance.GetText("screen.table.exchange.money.earned");
@@ -69,7 +71,7 @@ namespace YourBitcoinManager
 
 			m_container.Find("Button_OK").GetComponent<Button>().onClick.AddListener(OkPressed);
 
-			UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_WAIT);
+			// UIEventController.Instance.DispatchUIEvent(ScreenController.EVENT_FORCE_DESTRUCTION_WAIT);
 		}
 
 		// -------------------------------------------

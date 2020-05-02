@@ -142,5 +142,23 @@ namespace YourBitcoinManager
 			}
 		}
 
-	}
+        // -------------------------------------------
+        /* 
+		 * GetOnClick
+		 */
+        public ButtonClickedEvent GetOnClick()
+        {
+            return this.onClick;
+        }
+
+        // -------------------------------------------
+        /* 
+		 * RunOnClick
+		 */
+        public bool RunOnClick()
+        {
+            UIEventController.Instance.DispatchUIEvent(EVENT_SLOT_SELECTED, m_key);
+            return true;
+        }
+    }
 }
