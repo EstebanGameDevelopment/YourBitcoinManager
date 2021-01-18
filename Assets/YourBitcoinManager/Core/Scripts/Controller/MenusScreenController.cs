@@ -111,14 +111,14 @@ namespace YourBitcoinManager
 		 */
 		public void InitializeBitcoinCustom()
 		{
-			InitializeBitcoin();
+			InitializeBitcoin(UIScreenTypePreviousAction.DESTROY_ALL_SCREENS);
 		}
 
 		// -------------------------------------------
 		/* 
 		 * InitializeBitcoin
 		 */
-		public override void InitializeBitcoin(string _screenToLoad = "", params object[] _optionalParams)
+		public override void InitializeBitcoin(UIScreenTypePreviousAction _typeAction, string _screenToLoad = "", params object[] _optionalParams)
 		{
 			BitCoinController.Instance.Init();
 #if ENABLE_IAP

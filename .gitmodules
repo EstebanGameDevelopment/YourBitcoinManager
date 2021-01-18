@@ -7,3 +7,6 @@
 [submodule "Assets/YourCommonTools"]
 	path = Assets/YourCommonTools
 	url = https://github.com/EstebanGameDevelopment/YourCommonTools
+[submodule "Assets/YourNetworkTools"]
+	path = Assets/YourNetworkTools
+	url = https://github.com/EstebanGameDevelopment/YourNetworkTools.git
