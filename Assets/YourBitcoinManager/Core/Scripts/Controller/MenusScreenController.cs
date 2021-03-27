@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using YourBitcoinController;
 using YourCommonTools;
+#if ENABLE_IAP
+using UnityEngine.Purchasing;
+#endif
 
 namespace YourBitcoinManager
 {
@@ -124,7 +127,7 @@ namespace YourBitcoinManager
 #if ENABLE_IAP
 			if (GameObject.FindObjectOfType<IAPController>()!=null)
 			{
-				IAPController.Instance.Init(IAP_ACCESS_MAIN_NETWORK);
+				IAPController.Instance.Init(new List<object>() { IAP_ACCESS_MAIN_NETWORK, ProductType.Consumable });
 			}			
 #endif
 		}
